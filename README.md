@@ -12,12 +12,12 @@ https://github.com/sammyfung/hk0weather
 Installation Example
 --------------------
 
-> $ virtualenv hk0weatherenv
-> $ source hk0weatherenv/bin/activate
-> $ pip install scrapy
-> $ git clone https://github.com/sammyfung/hk0weather.git
-> $ cd hk0weather
-> $ scrapy crawl currwx -t json -o testresult
+$ virtualenv hk0weatherenv  
+$ source hk0weatherenv/bin/activate  
+$ pip install scrapy  
+$ git clone https://github.com/sammyfung/hk0weather.git  
+$ cd hk0weather  
+$ scrapy crawl currwx -t json -o testresult  
 
 Reference
 ---------
