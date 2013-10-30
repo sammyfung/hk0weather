@@ -35,7 +35,7 @@ class hk0:
     (u'將 軍 澳 ', 'tseungkwano'),
     (u'西 貢 ', 'saikung'),
     (u'長 洲 ', 'cheungchau'),
-    (u'赤 鱲 角 ', 'cheklapkok'),
+    (u'赤 鱲  角    ', 'cheklapkok'),
     (u'青 衣 ', 'tsingyi'),
     (u'石 崗 ', 'shekkong'),
     (u'荃 灣 可 觀 ', 'tsuenwanhokoon'),
