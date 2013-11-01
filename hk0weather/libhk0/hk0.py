@@ -24,30 +24,30 @@ import re, time
 
 class hk0:
   stations = [
-    (u'天 文 台 ', 'hko'),
-    (u'京 士 柏 ', 'kingspark'),
-    (u'黃 竹 坑 ', 'wongchukhang'),
-    (u'打 鼓 嶺 ', 'takwuling'),
-    (u'流 浮 山 ', 'laufaushan'),
-    (u'大 埔 ', 'taipo'),
-    (u'沙 田 ', 'shatin'),
-    (u'屯 門 ', 'tuenmun'),
-    (u'將 軍 澳 ', 'tseungkwano'),
-    (u'西 貢 ', 'saikung'),
-    (u'長 洲 ', 'cheungchau'),
-    (u'赤 鱲  角    ', 'cheklapkok'),
-    (u'青 衣 ', 'tsingyi'),
-    (u'石 崗 ', 'shekkong'),
-    (u'荃 灣 可 觀 ', 'tsuenwanhokoon'),
-    (u'荃 灣 城 門 谷 ', 'tsuenwanshingmunvalley'),
-    (u'香 港 公 園 ', 'hongkongpark'),
-    (u'筲 箕 灣 ', 'shaukeiwan'),
-    (u'九 龍 城 ', 'kowlooncity'),
-    (u'跑 馬 地 ', 'happyvalley'),
-    (u'黃 大 仙 ', 'wongtaisin'),
-    (u'赤 柱 ', 'stanley'),
-    (u'觀 塘 ', 'kwuntong'),
-    (u'深 水 埗 ', 'shamshuipo'),
+    (u'天文台', 'hko'),
+    (u'京士柏', 'kingspark'),
+    (u'黃竹坑', 'wongchukhang'),
+    (u'打鼓嶺', 'takwuling'),
+    (u'流浮山', 'laufaushan'),
+    (u'大埔', 'taipo'),
+    (u'沙田', 'shatin'),
+    (u'屯門', 'tuenmun'),
+    (u'將軍澳', 'tseungkwano'),
+    (u'西貢', 'saikung'),
+    (u'長洲', 'cheungchau'),
+    (u'赤鱲角', 'cheklapkok'),
+    (u'青衣', 'tsingyi'),
+    (u'石崗', 'shekkong'),
+    (u'荃灣可觀', 'tsuenwanhokoon'),
+    (u'荃灣城門谷', 'tsuenwanshingmunvalley'),
+    (u'香港公園', 'hongkongpark'),
+    (u'筲箕灣', 'shaukeiwan'),
+    (u'九龍城', 'kowlooncity'),
+    (u'跑馬地', 'happyvalley'),
+    (u'黃大仙', 'wongtaisin'),
+    (u'赤柱', 'stanley'),
+    (u'觀塘', 'kwuntong'),
+    (u'深水埗', 'shamshuipo'),
   ]
 
   def gettime(self, report):
@@ -78,3 +78,7 @@ class hk0:
         c['station'] = 'hko'
         return c
     
+  def hk0regional(self, report):
+    report = report.split('\n')
+    for i in report:
+      pass

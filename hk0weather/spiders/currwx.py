@@ -24,6 +24,7 @@ from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0WeatherItem
 from hk0weather.libhk0.hk0 import hk0
+import re
 
 class CurrwxSpider(BaseSpider):
   name = "currwx"
@@ -61,7 +62,7 @@ class CurrwxSpider(BaseSpider):
         stations.append(station)
       else:
 	for k,v in self.stations:
-          if i == k:
+          if re.sub(' ','',i)  == k:
             laststation = v
     return stations
 
