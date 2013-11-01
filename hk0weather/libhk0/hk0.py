@@ -48,6 +48,27 @@ class hk0:
     (u'赤柱', 'stanley'),
     (u'觀塘', 'kwuntong'),
     (u'深水埗', 'shamshuipo'),
+    # other regional weather stations
+    (u'滘西洲','kausaichau'),
+    (u'昂坪','ngongping'),
+    (u'坪洲','pengchau'),
+    (u'沙洲','shachau'),
+    (u'天星碼頭','starferry'),
+    (u'大美督','taimeituk'),
+    (u'大埔滘','taipokau'),
+    (u'塔門','tapmun'),
+    (u'大老山','tatescairn'),
+    (u'橫瀾島','waglanisland'),
+    (u'濕地公園','wetlandpark'),
+    (u'上水','sheungshui'),
+    (u'北潭涌','paktamchung'),
+    (u'大帽山','taimoshan'),
+    (u'山頂','thepeak'),
+    (u'長洲泳灘','cheungchaubeach'),
+    (u'青洲','greenisland'),
+    (u'啟德','kaitak'),
+    (u'中環','central'),
+    (u'西灣河','saiwanho'),
   ]
 
   def gettime(self, report):
@@ -63,7 +84,16 @@ class hk0:
         t = time.strptime(t,u'%Y %m月%d日%p%I時%M分')
         t = time.mktime(t)
         return t
-    pass
+  
+  def gettime2(self, report):
+    report = report.split('\n')
+    for i in report:
+      if re.search(u'錄得的天氣資料', i):
+        t = re.sub(u'錄得的天氣資料.*','', i)
+        t = re.sub(u' ','', t)
+        t = time.strptime(t,u'%Y年%m月%d日%I時%M分')
+        t = time.mktime(t)
+        return t
 
   def hk0current(self, report):
     report = re.sub(u'[ 。\r\n]','',report)
@@ -78,7 +108,3 @@ class hk0:
         c['station'] = 'hko'
         return c
     
-  def hk0regional(self, report):
-    report = report.split('\n')
-    for i in report:
-      pass
