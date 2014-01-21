@@ -10,4 +10,12 @@ class Hk0WeatherItem(Item):
   station = Field()
   temperture = Field()
   humidity = Field()
-  pass
+
+class Hk0RegionalItem(Item):
+  time = Field()
+  station = Field()
+  temperture = Field()
+  humidity = Field()
+  temperturemax = Field()
+  temperturemin = Field()
+
