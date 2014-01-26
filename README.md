@@ -17,7 +17,12 @@ $ source hk0weatherenv/bin/activate
 $ pip install scrapy  
 $ git clone https://github.com/sammyfung/hk0weather.git  
 $ cd hk0weather  
+
+To crawl Current Weather Report from HKO website to json format open weather data.
 $ scrapy crawl currwx -t json -o testresult  
+
+To crawl Regional Weather Data from HKO website to json format open weather data.
+$ scrapy crawl regionalwx -t json -o regionalwx.json
 
 Reference
 ---------
