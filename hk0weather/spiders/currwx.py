@@ -32,7 +32,6 @@ class CurrwxSpider(BaseSpider):
   start_urls = (
     'http://www.weather.gov.hk/wxinfo/currwx/currentc.htm',
   )
-  stations = hko.stations
  
   def parse(self, response):
     laststation = ''
@@ -58,10 +57,13 @@ class CurrwxSpider(BaseSpider):
         station = Hk0WeatherItem()
         station['time'] = int(time)
         station['station'] = laststation
+        hkobs = hko()
+        station['ename'] = hkobs.getename(laststation)
+        station['cname'] = hkobs.getcname(laststation)
         station['temperture'] = temperture
         stations.append(station)
       else:
-	for k,v in self.stations:
+	for k,v in hko.cnameid:
           if re.sub(' ','',i)  == k:
             laststation = v
     return stations

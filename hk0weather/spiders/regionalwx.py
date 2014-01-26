@@ -32,7 +32,6 @@ class RegionalwxSpider(BaseSpider):
   start_urls = (
     'http://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
   )
-  stations = hko.stations
  
   def parse(self, response):
     laststation = ''
@@ -47,11 +46,14 @@ class RegionalwxSpider(BaseSpider):
     for i in re.split('\n',report[0].extract()):
       laststation = ''
       station = Hk0RegionalItem()
-      for k,v in self.stations:
+      hkobs = hko()
+      for k,v in hko.cnameid:
         if re.sub(' ','',i[:5]) == k:
           laststation = v
           station['time'] = time
           station['station'] = laststation
+          station['ename'] = hkobs.getename(laststation)
+          station['cname'] = hkobs.getcname(laststation)
       dataline = re.sub('^\s','',i[6:])
       dataline = re.sub('\*',' ',dataline)
       data = re.split('\s+',dataline)
@@ -71,7 +73,8 @@ class RegionalwxSpider(BaseSpider):
             except ValueError:
               pass
         stations.append(station)
-      if len(data) == 4:
+      elif len(data) == 4:
+        print data
         # wind direction, wind speed, maximum gust.
         data[1] = re.sub(u'東南','Southeast', data[1])
         data[1] = re.sub(u'東北','Northeast', data[1])
@@ -81,6 +84,7 @@ class RegionalwxSpider(BaseSpider):
         data[1] = re.sub(u'南','South', data[1])
         data[1] = re.sub(u'西','West', data[1])
         data[1] = re.sub(u'北','North', data[1])
+        # 風向不定
         if not(re.search(u'^[A-Z].*',data[1])):
           data[1] = 'Variable'
         station['winddirection'] = data[1]
@@ -102,6 +106,6 @@ class RegionalwxSpider(BaseSpider):
         t = re.sub(u'錄得的天氣資料.*','', i)
         t = re.sub(u' ','0', t)
         t = time.strptime(t,u'%Y年%m月%d日%H時%M分')
-        t = time.mktime(t)
+        t = int(time.mktime(t))
         return t
 
