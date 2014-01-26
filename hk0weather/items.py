@@ -18,4 +18,15 @@ class Hk0RegionalItem(Item):
   humidity = Field()
   temperturemax = Field()
   temperturemin = Field()
+  winddirection = Field()
+  windspeed = Field()
+  maxgust = Field()
 
+class Hk0TropicalItem(Item):
+  time = Field()
+  postime = Field()
+  x = Field()
+  y = Field()
+  category = Field()
+  windspeed = Field()
+  type = Field()

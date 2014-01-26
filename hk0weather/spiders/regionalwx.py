@@ -23,8 +23,8 @@
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0RegionalItem
-from hk0weather.libhk0.hk0 import hk0
-import re
+from stations import hko
+import re, time
 
 class RegionalwxSpider(BaseSpider):
   name = "regionalwx"
@@ -32,7 +32,7 @@ class RegionalwxSpider(BaseSpider):
   start_urls = (
     'http://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
   )
-  stations = hk0.stations
+  stations = hko.stations
  
   def parse(self, response):
     laststation = ''
@@ -42,7 +42,7 @@ class RegionalwxSpider(BaseSpider):
     report = hxs.select('//pre[@id="ming"]/text()')
     
     # HKO report time.
-    time = hk0().gettime2(report[0].extract())
+    time = self.gettime(report[0].extract())
 
     for i in re.split('\n',report[0].extract()):
       laststation = ''
@@ -55,6 +55,7 @@ class RegionalwxSpider(BaseSpider):
       dataline = re.sub('^\s','',i[6:])
       dataline = re.sub('\*',' ',dataline)
       data = re.split('\s+',dataline)
+      #print "%s %s"%(len(data),data)
       if len(data) >= 7:
         for j in range(0,len(data)):
           if data[j].isdigit():
@@ -70,5 +71,37 @@ class RegionalwxSpider(BaseSpider):
             except ValueError:
               pass
         stations.append(station)
+      if len(data) == 4:
+        # wind direction, wind speed, maximum gust.
+        data[1] = re.sub(u'東南','Southeast', data[1])
+        data[1] = re.sub(u'東北','Northeast', data[1])
+        data[1] = re.sub(u'西南','Southwest', data[1])
+        data[1] = re.sub(u'西北','Northwest', data[1])
+        data[1] = re.sub(u'東','East', data[1])
+        data[1] = re.sub(u'南','South', data[1])
+        data[1] = re.sub(u'西','West', data[1])
+        data[1] = re.sub(u'北','North', data[1])
+        if not(re.search(u'^[A-Z].*',data[1])):
+          data[1] = 'Variable'
+        station['winddirection'] = data[1]
+        try: 
+          station['windspeed'] = int(data[2])
+        except ValueError:
+          pass
+        try:
+          station['maxgust'] = int(data[3])
+        except ValueError:
+          pass
+        stations.append(station)
     return stations
+
+  def gettime(self, report):
+    report = report.split('\n')
+    for i in report:
+      if re.search(u'錄得的天氣資料', i):
+        t = re.sub(u'錄得的天氣資料.*','', i)
+        t = re.sub(u' ','0', t)
+        t = time.strptime(t,u'%Y年%m月%d日%H時%M分')
+        t = time.mktime(t)
+        return t
 

@@ -20,9 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import re, time
-
-class hk0:
+class hko:
   stations = [
     (u'天文台', 'hko'),
     (u'京士柏', 'kingspark'),
@@ -71,41 +69,3 @@ class hk0:
     (u'西灣河','saiwanho'),
   ]
 
-  def gettime(self, report):
-    report = report.split('\n')
-    for i in report:
-      if re.search(u'香 港 天 文 台.*報 告', i):
-        t = re.sub(u'.*香 港 天 文 台 在 ','',i)
-        t = re.sub(u'發 出.*','',t)
-        t = re.sub(u'上 午','AM',t)
-        t = re.sub(u'下 午','PM',t)
-        t = re.sub(u' ','',t)
-        t = "%s "%time.localtime().tm_year + t 
-        t = time.strptime(t,u'%Y %m月%d日%p%I時%M分')
-        t = time.mktime(t)
-        return t
-  
-  def gettime2(self, report):
-    report = report.split('\n')
-    for i in report:
-      if re.search(u'錄得的天氣資料', i):
-        t = re.sub(u'錄得的天氣資料.*','', i)
-        t = re.sub(u' ','0', t)
-        print t
-        t = time.strptime(t,u'%Y年%m月%d日%H時%M分')
-        t = time.mktime(t)
-        return t
-
-  def hk0current(self, report):
-    report = re.sub(u'[ 。\r\n]','',report)
-    report = re.sub(u'<br>','\n',report)
-    report = report.split('\n')
-    for i in report:
-      if re.search(u'天文台錄得氣溫',i):
-        c = {}
-        c['temperture'] = re.sub(u'.*氣溫','',i)
-        c['temperture'] = int(re.sub(u'度.*','',c['temperture']))
-        c['humidity'] = int(re.sub(u'.*相對濕度百分之','',i))
-        c['station'] = 'hko'
-        return c
-    
