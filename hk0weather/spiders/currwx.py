@@ -23,8 +23,8 @@
 from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0WeatherItem
-from hk0weather.libhk0.hk0 import hk0
-import re
+from stations import hko
+import re, time
 
 class CurrwxSpider(BaseSpider):
   name = "currwx"
@@ -32,7 +32,7 @@ class CurrwxSpider(BaseSpider):
   start_urls = (
     'http://www.weather.gov.hk/wxinfo/currwx/currentc.htm',
   )
-  stations = hk0.stations
+  stations = hko.stations
  
   def parse(self, response):
     laststation = ''
@@ -42,8 +42,8 @@ class CurrwxSpider(BaseSpider):
     report = hxs.select('//div[@id="ming"]')
     
     # HKO report time, temperture and humidity.
-    time = hk0().gettime(report.extract()[0])
-    o = hk0().hk0current(report.extract()[0])
+    time = self.gettime(report.extract()[0])
+    o = self.hkocurrent(report.extract()[0])
     station = Hk0WeatherItem()
     station['time'] = int(time)
     station['station'] = o['station']
@@ -65,4 +65,35 @@ class CurrwxSpider(BaseSpider):
           if re.sub(' ','',i)  == k:
             laststation = v
     return stations
+
+  def gettime(self, report):
+    report = report.split('\n')
+    for i in report:
+      if re.search(u'香 港 天 文 台.*報 告', i):
+        if re.search(u'香 港 天 文 台 [0-9] .*報 告', i):
+          repl = '0'
+        else:
+          repl = ''
+        t = re.sub(u'.*香 港 天 文 台 在 ',repl,i)
+        t = re.sub(u'發 出.*','',t)
+        t = re.sub(u'上 午','AM',t)
+        t = re.sub(u'下 午','PM',t)
+        t = re.sub(u' ','',t)
+        t = "%s "%time.localtime().tm_year + t
+        t = time.strptime(t,u'%Y %m月%d日%p%I時%M分')
+        t = time.mktime(t)
+        return t
+
+  def hkocurrent(self, report):
+    report = re.sub(u'[ 。\r\n]','',report)
+    report = re.sub(u'<br>','\n',report)
+    report = report.split('\n')
+    for i in report:
+      if re.search(u'天文台錄得氣溫',i):
+        c = {}
+        c['temperture'] = re.sub(u'.*氣溫','',i)
+        c['temperture'] = int(re.sub(u'度.*','',c['temperture']))
+        c['humidity'] = int(re.sub(u'.*相對濕度百分之','',i))
+        c['station'] = 'hko'
+        return c
 
