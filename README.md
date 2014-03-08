@@ -24,6 +24,15 @@ $ scrapy crawl currwx -t json -o testresult
 To crawl Regional Weather Data from HKO website to json format open weather data.  
 $ scrapy crawl regionalwx -t json -o regionalwx.json
 
+
+Mailing List
+------------
+
+For general discussion of hk0weather project, please go to hk0weather google group. Please feel freely to ask questions or post your suggestions / comments.
+
+https://groups.google.com/forum/#!forum/hk0weather
+
+
 Reference
 ---------
 
