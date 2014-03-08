@@ -1,9 +1,9 @@
 hk0weather
 ==========
 
-hk0weather is a open source project to collect/crawl useful weather information/data from Hong Kong Observatory, and convert collected data into machine-readable format (eg. JSON).
+hk0weather is a open source project to scrap useful weather data from Hong Kong Observatory, and convert collected data into machine-readable format (eg. JSON).
 
-hk0weather is written in python, with use of scrapy (a web crawl framework in python) and regular expression.
+hk0weather is written in python + scrapy web scraping framework + regular expression.
 
 Source code is available on github.
 
@@ -18,10 +18,10 @@ $ pip install scrapy
 $ git clone https://github.com/sammyfung/hk0weather.git  
 $ cd hk0weather  
 
-To crawl Current Weather Report from HKO website to json format open weather data.  
+To scrap Current Weather Report from HKO website to json format open weather data.  
 $ scrapy crawl currwx -t json -o testresult  
 
-To crawl Regional Weather Data from HKO website to json format open weather data.  
+To scrap Regional Weather Data from HKO website to json format open weather data.  
 $ scrapy crawl regionalwx -t json -o regionalwx.json
 
 
