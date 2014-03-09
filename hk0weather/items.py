@@ -4,6 +4,8 @@
 # http://doc.scrapy.org/topics/items.html
 
 from scrapy.item import Item, Field
+from scrapy.contrib.djangoitem import DjangoItem
+from weatherdata.models import WeatherData
 
 class Hk0WeatherItem(Item):
   time = Field()
@@ -13,7 +15,7 @@ class Hk0WeatherItem(Item):
   temperture = Field()
   humidity = Field()
 
-class Hk0RegionalItem(Item):
+class Hk0RegionalItemOrig(Item):
   time = Field()
   station = Field()
   ename = Field()
@@ -25,6 +27,9 @@ class Hk0RegionalItem(Item):
   winddirection = Field()
   windspeed = Field()
   maxgust = Field()
+
+class Hk0RegionalItem(DjangoItem):
+  django_model = WeatherData
 
 class Hk0TropicalItem(Item):
   time = Field()
