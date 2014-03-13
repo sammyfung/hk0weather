@@ -36,7 +36,8 @@ class RegionalwxSpider(BaseSpider):
   def parse(self, response):
     laststation = ''
     temperture = int()
-    stations = []
+    stations = {}
+    stationitems = []
     hxs = HtmlXPathSelector(response)
     report = hxs.select('//pre[@id="ming"]/text()')
     
@@ -45,36 +46,38 @@ class RegionalwxSpider(BaseSpider):
 
     for i in re.split('\n',report[0].extract()):
       laststation = ''
-      station = Hk0RegionalItem()
+      station = {}
       hkobs = hko()
       for k,v in hko.cnameid:
         if re.sub(' ','',i[:5]) == k:
           laststation = v
-          station['time'] = time
-          station['station'] = laststation
-          station['ename'] = hkobs.getename(laststation)
-          station['cname'] = hkobs.getcname(laststation)
+          try:
+            station = stations[laststation]
+          except KeyError:
+            stations[laststation] = {}
+            stations[laststation]['time'] = time
+            stations[laststation]['station'] = laststation
+            stations[laststation]['ename'] = hkobs.getename(laststation)
+            stations[laststation]['cname'] = hkobs.getcname(laststation)
       dataline = re.sub('^\s','',i[6:])
       dataline = re.sub('\*',' ',dataline)
       data = re.split('\s+',dataline)
       #print "%s %s"%(len(data),data)
-      if len(data) >= 7:
+      if len(data) > 5:
         for j in range(0,len(data)):
           if data[j].isdigit():
-            station['humidity'] = int(data[j])
+            stations[laststation]['humidity'] = int(data[j])
           else:
             try:
               if j == 1:
-                station['temperture'] = float(data[j])
+                stations[laststation]['temperture'] = float(data[j])
               elif j == 3:
-                station['temperturemax'] = float(data[j])
+                stations[laststation]['temperturemax'] = float(data[j])
               elif j == 5:
-                station['temperturemin'] = float(data[j])
+                stations[laststation]['temperturemin'] = float(data[j])
             except ValueError:
               pass
-        stations.append(station)
-      elif len(data) == 4:
-        print data
+      elif len(data) == 4 and laststation!='':
         # wind direction, wind speed, maximum gust.
         data[1] = re.sub(u'東南','Southeast', data[1])
         data[1] = re.sub(u'東北','Northeast', data[1])
@@ -87,17 +90,23 @@ class RegionalwxSpider(BaseSpider):
         # 風向不定
         if not(re.search(u'^[A-Z].*',data[1])):
           data[1] = 'Variable'
-        station['winddirection'] = data[1]
+        stations[laststation]['winddirection'] = data[1]
         try: 
-          station['windspeed'] = int(data[2])
+          stations[laststation]['windspeed'] = int(data[2])
         except ValueError:
           pass
         try:
-          station['maxgust'] = int(data[3])
+          stations[laststation]['maxgust'] = int(data[3])
         except ValueError:
           pass
-        stations.append(station)
-    return stations
+
+    for key in stations:
+      stationitem = Hk0RegionalItem()
+      for key2 in stations[key]:
+        stationitem[key2] = stations[key][key2]
+      stationitems.append(stationitem)
+
+    return stationitems
 
   def gettime(self, report):
     report = report.split('\n')
