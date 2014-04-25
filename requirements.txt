@@ -1,0 +1,15 @@
+Django==1.6.3
+Scrapy==0.22.2
+Twisted==13.2.0
+argparse==1.2.1
+cffi==0.8.2
+cryptography==0.3
+cssselect==0.9.1
+lxml==3.3.5
+pyOpenSSL==0.14
+pycparser==2.10
+queuelib==1.1.1
+six==1.6.1
+w3lib==1.5
+wsgiref==0.1.2
+zope.interface==4.1.1
