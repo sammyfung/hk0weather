@@ -1,7 +1,8 @@
 from django.db import models
 
 class WeatherData(models.Model):
-  time = models.IntegerField()
+  scraptime = models.FloatField()
+  reptime = models.IntegerField()
   station = models.CharField(max_length=3)
   ename = models.CharField(max_length=64)
   cname = models.CharField(max_length=16)

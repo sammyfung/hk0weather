@@ -15,19 +15,6 @@ class Hk0WeatherItem(Item):
   temperture = Field()
   humidity = Field()
 
-class Hk0RegionalItemOrig(Item):
-  time = Field()
-  station = Field()
-  ename = Field()
-  cname = Field()
-  temperture = Field()
-  humidity = Field()
-  temperturemax = Field()
-  temperturemin = Field()
-  winddirection = Field()
-  windspeed = Field()
-  maxgust = Field()
-
 class Hk0RegionalItem(DjangoItem):
   django_model = WeatherData
 

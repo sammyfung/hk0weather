@@ -42,7 +42,7 @@ class RegionalwxSpider(BaseSpider):
     report = hxs.select('//pre[@id="ming"]/text()')
     
     # HKO report time.
-    time = self.gettime(report[0].extract())
+    reptime = self.gettime(report[0].extract())
 
     for i in re.split('\n',report[0].extract()):
       laststation = ''
@@ -55,7 +55,8 @@ class RegionalwxSpider(BaseSpider):
             station = stations[laststation]
           except KeyError:
             stations[laststation] = {}
-            stations[laststation]['time'] = time
+            stations[laststation]['scraptime'] = time.time()
+            stations[laststation]['reptime'] = reptime
             stations[laststation]['station'] = laststation
             stations[laststation]['ename'] = hkobs.getename(laststation)
             stations[laststation]['cname'] = hkobs.getcname(laststation)

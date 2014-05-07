@@ -16,8 +16,8 @@ NEWSPIDER_MODULE = 'hk0weather.spiders'
 
 import os, sys
 os.environ.setdefault("DJANGO_SETTINGS_MODULE","hk0data.settings")
-path = os.path.dirname(__file__)+'/../hk0data/hk0data'
-sys.path.append(os.path.abspath(os.path.join(path, os.path.pardir)))
+path = os.path.join(os.path.dirname(__file__),'../hk0data')
+sys.path.append(os.path.abspath(path))
 from django.conf import settings
 
 ITEM_PIPELINES = {
