@@ -25,4 +25,11 @@ class Hk0TropicalItem(Item):
   y = Field()
   category = Field()
   windspeed = Field()
-  type = Field()
+  tctype = Field()
+
+class Hk0RainfallItem(Item):
+  scraptime = Field()
+  reptime = Field()
+  ename = Field()
+  cname = Field()
+  rainfall = Field()
