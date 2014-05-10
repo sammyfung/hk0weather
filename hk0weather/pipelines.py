@@ -13,9 +13,8 @@ from weatherdata.models import WeatherData
 class Hk0RegionalPipeline(object):
 
   def process_item(self, item, spider):
-    pass
-    #if not WeatherData.objects.filter(reptime = item['reptime'], station=item['station']):
-      #item.save()
-    #else:
-      #raise DropItem("Data time %s from station %s exists." % (item['reptime'],item['station'])) 
-    #return item
+    if not WeatherData.objects.filter(reptime = item['reptime'], station=item['station']):
+      item.save()
+    else:
+      raise DropItem("Data time %s from station %s exists." % (item['reptime'],item['station'])) 
+    return item
