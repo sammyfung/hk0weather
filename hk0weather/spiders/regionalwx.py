@@ -24,7 +24,8 @@ from scrapy.spider import BaseSpider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0RegionalItem
 from stations import hko
-import re, time
+import re
+from datetime import datetime
 
 class RegionalwxSpider(BaseSpider):
   name = "regionalwx"
@@ -55,7 +56,7 @@ class RegionalwxSpider(BaseSpider):
             station = stations[laststation]
           except KeyError:
             stations[laststation] = {}
-            stations[laststation]['scraptime'] = time.time()
+            stations[laststation]['scraptime'] = datetime.today()
             stations[laststation]['reptime'] = reptime
             stations[laststation]['station'] = laststation
             stations[laststation]['ename'] = hkobs.getename(laststation)
@@ -115,7 +116,8 @@ class RegionalwxSpider(BaseSpider):
       if re.search(u'錄得的天氣資料', i):
         t = re.sub(u'錄得的天氣資料.*','', i)
         t = re.sub(u' ','0', t)
-        t = time.strptime(t,u'%Y年%m月%d日%H時%M分')
-        t = int(time.mktime(t))
+        #t = datetime.strptime(t,u'%Y年%m月%d日%H時%M分')
+        t = re.sub(u'[年月日時分]',' ', t)
+        t = datetime.strptime(t,u'%Y %m %d %H %M ')
         return t
 
