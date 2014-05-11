@@ -62,5 +62,6 @@ class HkrainfallSpider(BaseSpider):
     endtime = re.sub('^.* and ','',timeperiod)
     endtime = re.sub(',.*','',endtime)
     endtime = re.sub('\.','',endtime).upper()
+    endtime = re.sub('^0','12',endtime)
     endtime = datetime.combine(datetime.today().date(), datetime.strptime(endtime,"%I:%M %p").time())
     return endtime
