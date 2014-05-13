@@ -30,7 +30,7 @@ class CurrwxSpider(BaseSpider):
   name = "currwx"
   allowed_domains = ["weather.gov.hk"]
   start_urls = (
-    'http://www.weather.gov.hk/textonly/current/rainfall_sr_uc.htm',
+    'http://www.weather.gov.hk/wxinfo/currwx/currentc.htm',
   )
  
   def parse(self, response):
