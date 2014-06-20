@@ -14,7 +14,7 @@ class HkocurrwxSpider(Spider):
         sel = Selector(response)
         currwx = HkocurrwxItem()
         line = sel.xpath('//div[@id="ming"]').extract()
-        currwx['reptime'] = 0
+        currwx['reptime'] = response.headers['Last-Modified']
         currwx['lang'] = "zh"
         for i in line:
           i = re.sub('<[^<]+?>', '', i)
