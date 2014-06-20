@@ -29,3 +29,8 @@ class Hk0TropicalItem(Item):
 
 class Hk0RainfallItem(DjangoItem):
   django_model = RainfallData
+
+class HkocurrwxItem(Item):
+  reptime = Field()
+  lang = Field()
+  report = Field()
