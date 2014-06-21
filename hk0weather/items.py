@@ -5,7 +5,7 @@
 
 from scrapy.item import Item, Field
 from scrapy.contrib.djangoitem import DjangoItem
-from weatherdata.models import WeatherData, RainfallData
+from weatherdata.models import WeatherData, RainfallData, ReportData
 
 class Hk0WeatherItem(Item):
   time = Field()
@@ -30,7 +30,5 @@ class Hk0TropicalItem(Item):
 class Hk0RainfallItem(DjangoItem):
   django_model = RainfallData
 
-class HkocurrwxItem(Item):
-  reptime = Field()
-  lang = Field()
-  report = Field()
+class ReportItem(DjangoItem):
+  django_model = ReportData 

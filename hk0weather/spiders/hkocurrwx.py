@@ -1,6 +1,7 @@
 from scrapy.spider import Spider
 from scrapy.selector import Selector
-from hk0weather.items import HkocurrwxItem
+from hk0weather.items import ReportItem
+from datetime import datetime
 import re
 
 class HkocurrwxSpider(Spider):
@@ -8,19 +9,30 @@ class HkocurrwxSpider(Spider):
     allowed_domains = ["weather.gov.hk"]
     start_urls = (
         'http://www.weather.gov.hk/wxinfo/currwx/currentc.htm',
+        'http://www.weather.gov.hk/wxinfo/currwx/current.htm',
         )
 
     def parse(self, response):
         sel = Selector(response)
-        currwx = HkocurrwxItem()
-        line = sel.xpath('//div[@id="ming"]').extract()
-        currwx['reptime'] = response.headers['Last-Modified']
-        currwx['lang'] = "zh"
-        for i in line:
-          i = re.sub('<[^<]+?>', '', i)
-          try:
-            currwx['report'] += i
-          except KeyError:
-            currwx['report'] = i
-        print currwx['report']
+        currwx = ReportItem()
+        currwx['agency'] = 'HKO'
+        currwx['reptype'] = 'current'
+        currwx['reptime'] = datetime.strptime(response.headers['Last-Modified'],'%a, %d %b %Y %X %Z')
+        line = ''
+        if re.search('currentc.htm', response.url): 
+          currwx['lang'] = "zh_TW"
+          line = sel.xpath('//div[@id="ming"]').extract()
+          for i in line:
+            i = re.sub('<[^<]+?>', '', i)
+            try:
+              currwx['report'] += i
+            except KeyError:
+              currwx['report'] = i
+            print currwx['report']
+        else:
+          currwx['lang'] = "en"
+          currwx['report'] = sel.xpath('//span/text()').extract()[0]
+          currwx['report'] += sel.xpath('//div').extract()[5]
+          currwx['report'] = re.sub('<[^<]+?>', '', currwx['report'])
+          print currwx['report']
         return currwx

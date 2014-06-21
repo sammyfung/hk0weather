@@ -8,7 +8,7 @@
 #        return item
 
 from scrapy.exceptions import DropItem
-from weatherdata.models import WeatherData, RainfallData
+from weatherdata.models import WeatherData, RainfallData, ReportData
 
 class Hk0RegionalPipeline(object):
 
@@ -23,4 +23,9 @@ class Hk0RegionalPipeline(object):
         item.save()
       else:
         raise DropItem("Rainfall Data time %s of %s exists."% (item['reptime'],item['ename']))
+    elif spider.name == 'hkocurrwx':
+      if not ReportData.objects.filter(reptime = item['reptime'], agency = item['agency'], reptype = item['reptype'], lang = item['lang']):
+        item.save()
+      else:
+        raise DropItem("HKO current weather report (%s) of %s is exist."%(item['lang'], item['reptime']))
     return item

@@ -20,3 +20,10 @@ class RainfallData(models.Model):
   ename = models.CharField(max_length=64)
   cname = models.CharField(max_length=16, null=True, blank=True)
   rainfall = models.IntegerField(null=True, blank=True)
+
+class ReportData(models.Model):
+  reptime = models.DateTimeField()
+  agency = models.CharField(max_length=8)
+  reptype = models.CharField(max_length=16)
+  lang = models.CharField(max_length=5)
+  report = models.TextField()
