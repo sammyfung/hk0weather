@@ -28,11 +28,9 @@ class HkocurrwxSpider(Spider):
               currwx['report'] += i
             except KeyError:
               currwx['report'] = i
-            print currwx['report']
         else:
           currwx['lang'] = "en"
           currwx['report'] = sel.xpath('//span/text()').extract()[0]
           currwx['report'] += sel.xpath('//div').extract()[5]
           currwx['report'] = re.sub('<[^<]+?>', '', currwx['report'])
-          print currwx['report']
         return currwx
