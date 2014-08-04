@@ -7,13 +7,13 @@
 #       
 #       Copyright 2013 Sammy Fung <sammy@sammy.hk>
 
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0RainfallItem
 import re
 from datetime import datetime
 
-class HkrainfallSpider(BaseSpider):
+class HkrainfallSpider(Spider):
   name = "hkrainfall"
   allowed_domains = ["weather.gov.hk"]
   start_urls = (

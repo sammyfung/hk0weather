@@ -20,14 +20,14 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from hk0weather.items import Hk0RegionalItem
 from stations import hko
 import re
 from datetime import datetime
 
-class RegionalwxSpider(BaseSpider):
+class RegionalwxSpider(Spider):
   name = "regionalwx"
   allowed_domains = ["weather.gov.hk"]
   start_urls = (
