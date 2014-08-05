@@ -10,7 +10,7 @@
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from hk0weather.items import Hk0RainfallItem
-import re
+import re, pytz
 from datetime import datetime
 
 class HkrainfallSpider(Spider):
@@ -45,7 +45,7 @@ class HkrainfallSpider(Spider):
     report = sel.xpath('//tr/td[contains(@style,"width:200px;")]/text()').extract()
     for i in range(0,len(report)):
       stationitem = Hk0RainfallItem()
-      stationitem['scraptime'] = datetime.today()
+      stationitem['scraptime'] = datetime.now(pytz.utc)
       stationitem['reptime'] = self.parse_time(reptime)
       stationitem['ename'] = report[i]
       try:
@@ -64,4 +64,5 @@ class HkrainfallSpider(Spider):
     endtime = re.sub('\.','',endtime).upper()
     endtime = re.sub('^0','12',endtime)
     endtime = datetime.combine(datetime.today().date(), datetime.strptime(endtime,"%I:%M %p").time())
+    endtime = endtime.replace(tzinfo = pytz.timezone('Etc/GMT-8'))
     return endtime
