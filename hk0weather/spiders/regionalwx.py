@@ -4,27 +4,12 @@
 #       regionalwx.py
 #       
 #       Copyright 2013 Sammy Fung <sammy@sammy.hk>
-#       
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
-#       
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
-#       
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
 
 from scrapy.spider import Spider
-from scrapy.selector import HtmlXPathSelector
+from scrapy.selector import Selector
 from hk0weather.items import Hk0RegionalItem
 from stations import hko
-import re
+import re, pytz
 from datetime import datetime
 
 class RegionalwxSpider(Spider):
@@ -39,8 +24,8 @@ class RegionalwxSpider(Spider):
     temperture = int()
     stations = {}
     stationitems = []
-    hxs = HtmlXPathSelector(response)
-    report = hxs.select('//pre[@id="ming"]/text()')
+    sel = Selector(response)
+    report = sel.xpath('//pre[@id="ming"]/text()')
     
     # HKO report time.
     reptime = self.gettime(report[0].extract())
@@ -56,7 +41,7 @@ class RegionalwxSpider(Spider):
             station = stations[laststation]
           except KeyError:
             stations[laststation] = {}
-            stations[laststation]['scraptime'] = datetime.today()
+            stations[laststation]['scraptime'] = datetime.now(pytz.utc)
             stations[laststation]['reptime'] = reptime
             stations[laststation]['station'] = laststation
             stations[laststation]['ename'] = hkobs.getename(laststation)
@@ -116,8 +101,7 @@ class RegionalwxSpider(Spider):
       if re.search(u'錄得的天氣資料', i):
         t = re.sub(u'錄得的天氣資料.*','', i)
         t = re.sub(u' ','0', t)
-        #t = datetime.strptime(t,u'%Y年%m月%d日%H時%M分')
-        t = re.sub(u'[年月日時分]',' ', t)
-        t = datetime.strptime(t,u'%Y %m %d %H %M ')
+        t = re.sub(u'[年月日時分]',' ', t) 
+        t = datetime.strptime(t,u'%Y %m %d %H %M ').replace(tzinfo = pytz.timezone('Etc/GMT-8'))
         return t
 

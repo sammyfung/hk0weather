@@ -8,7 +8,7 @@
 #       Copyright 2013 Sammy Fung <sammy@sammy.hk>
 
 from scrapy.spider import Spider
-from scrapy.selector import HtmlXPathSelector
+from scrapy.selector import Selector
 from hk0weather.items import Hk0RainfallItem
 import re
 from datetime import datetime
@@ -40,9 +40,9 @@ class HkrainfallSpider(Spider):
 
   def parse(self, response):
     stationitems = []
-    hxs = HtmlXPathSelector(response)
-    reptime = hxs.select('//span/text()')[0].extract()
-    report = hxs.select('//tr/td[contains(@style,"width:200px;")]/text()').extract()
+    sel = Selector(response)
+    reptime = sel.xpath('//span/text()')[0].extract()
+    report = sel.xpath('//tr/td[contains(@style,"width:200px;")]/text()').extract()
     for i in range(0,len(report)):
       stationitem = Hk0RainfallItem()
       stationitem['scraptime'] = datetime.today()
@@ -52,7 +52,7 @@ class HkrainfallSpider(Spider):
         stationitem['cname'] = self.cname[report[i]]
       except KeyError:
         pass
-      rainfall = hxs.select('//tr/td[contains(@style,"width:90px;")]/text()')[i].extract()
+      rainfall = sel.xpath('//tr/td[contains(@style,"width:90px;")]/text()')[i].extract()
       rainfall = int(re.sub(' mm','',rainfall))
       stationitem['rainfall'] = rainfall
       stationitems.append(stationitem)

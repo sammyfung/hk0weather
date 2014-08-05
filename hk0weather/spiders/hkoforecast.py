@@ -2,7 +2,7 @@ from scrapy.spider import Spider
 from scrapy.selector import Selector
 from hk0weather.items import ReportItem
 from datetime import datetime
-import re
+import re, pytz
 
 class HkoforecastSpider(Spider):
     name = "hkoforecast"
@@ -17,7 +17,7 @@ class HkoforecastSpider(Spider):
         forecast = ReportItem()
         forecast['agency'] = 'HKO'
         forecast['reptype'] = 'forecast'
-        forecast['reptime'] = datetime.strptime(response.headers['Last-Modified'],'%a, %d %b %Y %X %Z')
+        forecast['reptime'] = datetime.strptime(response.headers['Last-Modified'],'%a, %d %b %Y %X %Z').replace(tzinfo = pytz.utc)
         if re.search('flwc.htm', response.url):
           forecast['lang'] = "zh_TW"
           forecast['report'] = sel.xpath('//span/text()').extract()[0]
