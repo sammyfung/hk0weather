@@ -46,6 +46,7 @@ class hko:
     (u'sty', 'Stanley'),
     (u'ktg', 'Kwun Tong'),
     (u'ssp', 'Sham Shui Po'),
+    (u'se1', Kai Tak Runway Park'),
     # other regional weather stations
     (u'ksc','Kau Sai Chau'),
     (u'ngp','Ngong Ping'),
@@ -94,6 +95,7 @@ class hko:
     (u'赤柱', 'sty'),
     (u'觀塘', 'ktg'),
     (u'深水埗', 'ssp'),
+    (u'啟德跑道公園', 'se1'),
     # other regional weather stations
     (u'滘西洲','ksc'),
     (u'昂坪','ngp'),
