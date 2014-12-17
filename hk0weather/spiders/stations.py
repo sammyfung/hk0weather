@@ -46,7 +46,7 @@ class hko:
     (u'sty', 'Stanley'),
     (u'ktg', 'Kwun Tong'),
     (u'ssp', 'Sham Shui Po'),
-    (u'se1', Kai Tak Runway Park'),
+    (u'se1', 'Kai Tak Runway Park'),
     # other regional weather stations
     (u'ksc','Kau Sai Chau'),
     (u'ngp','Ngong Ping'),
