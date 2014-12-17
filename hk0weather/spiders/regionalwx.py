@@ -7,6 +7,7 @@
 
 from scrapy.spider import Spider
 from scrapy.selector import Selector
+from scrapy import log
 from hk0weather.items import Hk0RegionalItem
 from stations import hko
 import re, pytz
@@ -64,6 +65,8 @@ class RegionalwxSpider(Spider):
                 stations[laststation]['temperturemin'] = float(data[j])
             except ValueError:
               pass
+            except KeyError:
+              log.msg("KeyError on Regional Weather Information: station %s, field %s"%(laststation,j), level=log.WARNING)
       elif len(data) == 4 and laststation!='':
         # wind direction, wind speed, maximum gust.
         data[1] = re.sub(u'東南','Southeast', data[1])
