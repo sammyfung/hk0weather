@@ -36,7 +36,7 @@ class RegionalwxSpider(Spider):
       station = {}
       hkobs = hko()
       for k,v in hko.cnameid:
-        if re.sub(' ','',i[:5]) == k:
+        if re.sub(' ','',i[:6]) == k:
           laststation = v
           try:
             station = stations[laststation]
