@@ -13,3 +13,14 @@ NEWSPIDER_MODULE = 'hk0weather.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'hk0weather (+http://www.yourdomain.com)'
+
+import os, sys
+os.environ.setdefault("DJANGO_SETTINGS_MODULE","hk0data.settings")
+path = os.path.join(os.path.dirname(__file__),'../hk0data')
+sys.path.append(os.path.abspath(path))
+from django.conf import settings
+
+ITEM_PIPELINES = {
+  'hk0weather.pipelines.Hk0RegionalPipeline': 300,
+}
+
