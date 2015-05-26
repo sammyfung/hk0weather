@@ -21,13 +21,13 @@ $ pip install django
 $ git clone https://github.com/sammyfung/hk0weather.git  
 $ cd hk0data   
 $ python manage.py syncdb    
-$ cd ..   
-$ cd hk0weather  
 
 Running a Django CMS (with web admin UI)
 ----------------------------------------
 
+$ cd hk0data    
 $ python manage.py runserver &  
+
 
 Django web admin UI can be access at: http://localhost:8000/admin  
 
@@ -35,16 +35,18 @@ Run a scrapy web scraper
 ------------------------
 
 To run a scrapy web scraper.   
-$ scrapy crawl <name of scraper>  
+$ scrapy crawl <name of scraper>   
 
-To run a scrapy web scraper with output file in json format.  
-$ scrapy crawl <name of scraoer>  
+To run a scrapy web scraper with output file in json format.   
+$ scrapy crawl <name of scraoer> -o output_filename -t json    
 
-List of available weather data scrapers
---------------------------------------
-1. currwx: Current Hourly Hong Kong Weather Report from HKO.  
-2. regionalwx: Hong Kong Regional Weather Data (10-min update) from HKO.  
-3. hkrainfall: Hong Kong Rainfall Data (Hourly update) from HKO.  
+List of Spiders
+---------------
+1. hko9dayforecast (under development): Hong Kong 9 day Weather Report from HKO.   
+2. hkocurrwx: Current Hourly Hong Kong Weather Report from HKO.    
+3. hkoforecast: Hong Kong Next 24 hour Weather Forecast Report from HKO.   
+4. hkrainfall: Hong Kong Rainfall Data (Hourly update) from HKO.    
+5. regionalwx: Hong Kong Regional Weather Data (10-min update) from HKO.    
 
 Mailing List
 ------------
