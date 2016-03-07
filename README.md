@@ -1,7 +1,7 @@
 hk0weather
 ==========
 
-hk0weather is a open source project to scrap useful weather data from Hong Kong Observatory, it is written in python.
+hk0weather is a open source project to scrape useful weather data from Hong Kong Observatory, it is written in python.
 
 With scrapy web scraping framework and regular expression library, collected weather data can be converted to machine-readable formats (eg. JSON).
 
