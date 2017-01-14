@@ -14,14 +14,14 @@ https://github.com/sammyfung/hk0weather
 Installation Example
 --------------------
 
-1. Setting up python 3 virtual enviornment and cloning hk0weather   
+1) Setting up python 3 virtual enviornment and cloning hk0weather   
    
 $ virtualenv hk0weatherenv  
 $ source hk0weatherenv/bin/activate  
 $ pip install Scrapy Django scrapy-djangoitem pytz
 $ git clone https://github.com/sammyfung/hk0weather.git    
     
-2. Setting openweather   
+2) Setting openweather   
 
 $ django-admin startproject yourprojname   
 $ cd yourprojname   
@@ -32,7 +32,7 @@ Please also add openweather app to your django setting, and then do the followin
 $ ./manage.py makemigrations    
 $ ./manage.py migrate   
 
-3. Setting enviornment variables for hk0weather   
+3) Setting enviornment variables for hk0weather   
    
 $ cd your-path-to/hk0weather
 $ export PYTHONPATH=/your-path-to/yourprojname
