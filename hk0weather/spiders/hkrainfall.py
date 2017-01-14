@@ -7,7 +7,7 @@
 #       
 #       Copyright 2013 Sammy Fung <sammy@sammy.hk>
 
-from scrapy.spider import Spider
+from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from hk0weather.items import Hk0RainfallItem
 import re, pytz

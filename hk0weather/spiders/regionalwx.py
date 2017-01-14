@@ -5,11 +5,11 @@
 #       
 #       Copyright 2013 Sammy Fung <sammy@sammy.hk>
 
-from scrapy.spider import Spider
+from scrapy.spiders import Spider
 from scrapy.selector import Selector
-from scrapy import log
+import logging
 from hk0weather.items import Hk0RegionalItem
-from stations import hko
+from .stations import hko
 import re, pytz
 from datetime import datetime
 
@@ -66,7 +66,7 @@ class RegionalwxSpider(Spider):
             except ValueError:
               pass
             except KeyError:
-              log.msg("KeyError on Regional Weather Information: station %s, field %s"%(laststation,j), level=log.WARNING)
+              logging.warning("KeyError on Regional Weather Information: station %s, field %s"%(laststation,j))
       elif len(data) == 4 and laststation!='':
         # wind direction, wind speed, maximum gust.
         data[1] = re.sub(u'東南','Southeast', data[1])

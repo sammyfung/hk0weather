@@ -1,4 +1,4 @@
-from scrapy.spider import Spider
+from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from hk0weather.items import ReportItem
 
@@ -15,6 +15,6 @@ class Hko9dayforecastSpider(Spider):
         forecast = ReportItem()
         nineday = sel.xpath('//tr[@id="forecast_desc"]/td/div/text()').extract()
         for i in nineday:
-          print i
+          print(i)
         # wind direction and speed forecast
         # sel.xpath('//div[@id="fnd"]/table/tr').extract()[6]

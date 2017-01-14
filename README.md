@@ -34,6 +34,10 @@ Django web admin UI can be access at: http://localhost:8000/admin
 Run a scrapy web scraper
 ------------------------
 
+Setting 2 enviornment variables linking with your django project with openweather app installed.    
+$ export PYTHONPATH=/something/to-your-django-dir    
+$ export DJANGO_SETTINGS_MODULE=yourdjangoprojname.settings   
+
 To run a scrapy web scraper.   
 $ scrapy crawl <name of scraper>   
 
