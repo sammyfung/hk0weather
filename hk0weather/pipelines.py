@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from scrapy.exceptions import DropItem
 from openweather.models import WeatherData, RainfallData, ReportData
 
