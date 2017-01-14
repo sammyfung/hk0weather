@@ -42,7 +42,7 @@ Running a Django CMS (with web admin UI)
 ----------------------------------------
 
 $ cd /your-path-to/yourprojname    
-$ python manage.py runservero&  
+$ python manage.py runserver &  
 
 
 Django web admin UI can be access at: http://localhost:8000/admin  
