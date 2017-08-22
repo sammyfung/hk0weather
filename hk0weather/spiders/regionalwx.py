@@ -50,7 +50,6 @@ class RegionalwxSpider(Spider):
       dataline = re.sub('^\s','',i[6:])
       dataline = re.sub('\*',' ',dataline)
       data = re.split('\s+',dataline)
-      #print "%s %s"%(len(data),data)
       if len(data) > 5:
         for j in range(0,len(data)):
           if data[j].isdigit():
@@ -89,6 +88,8 @@ class RegionalwxSpider(Spider):
           stations[laststation]['maxgust'] = int(data[3])
         except ValueError:
           pass
+      elif len(data) == 2:
+        stations[laststation]['pressure'] = float(data[1])
 
     for key in stations:
       stationitem = Hk0RegionalItem()
