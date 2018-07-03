@@ -1,15 +1,15 @@
 hk0weather
 ==========
 
-hk0weather is a open source project to scrape useful weather data from Hong Kong Observatory, it is written in python.
+hk0weather is an open source project to scrape useful weather data from Hong Kong Observatory. It is written in Python.
 
-With scrapy web scraping framework and regular expression library, collected weather data can be converted to machine-readable formats (eg. JSON).
+With the scrapy web scraping framework and regular expression library, collected weather data can be converted to machine-readable formats (eg. JSON).
 
-This scrapy project can be run with / without Django.    
+This scrapy project can be run with or without Django.    
 
-With django web framework, collected weather data will be stored in django, and accessible through django web admin UI. sqlite3 is default database file format, and it can be connected with MySQL and other database systems supported by django.
+With the Django web framework, collected weather data will be stored in django and accessible through django web admin UI. sqlite3 is the default database file format and can be connected with MySQL and other database systems supported by Django.
 
-Source code is available on github.
+The source code is available on github:
 
 https://github.com/sammyfung/hk0weather
 
@@ -29,7 +29,7 @@ $ django-admin startproject yourprojname
 $ cd yourprojname   
 $ git clone https://github.com/sammyfung/openweather.git   
    
-Please also add openweather app to your django setting, and then do the following to alter django database tables.
+Please also add openweather app to your django setting and then do the following to alter django database tables.
 
 $ ./manage.py makemigrations    
 $ ./manage.py migrate   
@@ -47,19 +47,19 @@ $ cd /your-path-to/yourprojname
 $ python manage.py runserver &  
 
 
-Django web admin UI can be access at: http://localhost:8000/admin  
+Django web admin UI can be accessed at: http://localhost:8000/admin  
 
 Run a scrapy web scraper
 ------------------------
 
-Setting 2 enviornment variables linking with your django project with openweather app installed.    
+To set 2 environment variables linking with your django project with openweather app installed:    
 $ export PYTHONPATH=/your-path-to/yourdjangoprojname     
 $ export DJANGO_SETTINGS_MODULE=yourdjangoprojname.settings
 
-To run a scrapy web scraper.   
+To run a scrapy web scraper:  
 $ scrapy crawl <name of scraper>   
 
-To run a scrapy web scraper with output file in json format.   
+To run a scrapy web scraper with output file in json format:   
 $ scrapy crawl <name of scraoer> -o output_filename -t json    
 
 List of Spiders
@@ -73,7 +73,7 @@ List of Spiders
 Mailing List
 ------------
 
-For general discussion of hk0weather project, please go to hk0weather google group. Please feel freely to ask questions or post your suggestions / comments.
+For general discussion of hk0weather project, please go to the hk0weather Google group. Please feel freely to ask questions or post your suggestions / comments.
 
 https://groups.google.com/forum/#!forum/hk0weather
 
@@ -81,11 +81,11 @@ https://groups.google.com/forum/#!forum/hk0weather
 Reference
 ---------
 
-I introduced this project on my following Chinese blog.
+I introduced this project on my following Chinese blog:
 
 http://sammy.hk/2013/02/14/opensource-hk0weather
 
-And I also presented it at BarCampHK 2013 and a local open source workshop, hereby is my slide.
+I also presented this project at BarCampHK 2013 and a local open source workshop. Here are my slides:
 
 http://www.slideshare.net/sammyfung/hk0weather-barcamp
 
