@@ -16,6 +16,6 @@ class Hko9dayforecastSpider(Spider):
         forecast = ReportItem()
         nineday = sel.xpath('//tr[@id="forecast_desc"]/td/div/text()').extract()
         for i in nineday:
-          print(i)
+          print(i.encode('utf-8'))
         # wind direction and speed forecast
         # sel.xpath('//div[@id="fnd"]/table/tr').extract()[6]

@@ -23,7 +23,10 @@ ITEM_PIPELINES = {
 # and DJANGO_SETTINGS_MODULE for Settings filename of Django project
 try:
     import django
-    django.setup()
+    try:
+        django.setup()
+    except django.core.exceptions.ImproperlyConfigured:
+        pass
 except ImportError:
     # Allow to work without Django
     pass
