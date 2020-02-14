@@ -1,3 +1,5 @@
 Scrapy==1.8.0
 pytz==2017.3
 Twisted==18.9.0
+Django==2.2.10
+scrapy-djangoitem==1.1.1

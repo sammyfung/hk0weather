@@ -1,20 +1,14 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#       hkrainfall.py
-#
-#	Web Scraper to collect Hong Kong Rainfall of past hour.
-#       
-#       Copyright 2013 Sammy Fung <sammy@sammy.hk>
-
-from scrapy.spiders import Spider
+# Web Scraping for Hong Kong Rainfall data of past hour.
+import scrapy
 from scrapy.selector import Selector
-from hk0weather.items import Hk0RainfallItem
+from hk0weather.items import RainfallItem
 import re, pytz
 from datetime import datetime
 
-class HkrainfallSpider(Spider):
-    name = "hkrainfall"
+
+class RainfallSpider(scrapy.Spider):
+    name = "rainfall"
     allowed_domains = ["weather.gov.hk"]
     start_urls = (
         'http://www.weather.gov.hk/textonly/current/rainfall_sr.htm',
@@ -44,7 +38,7 @@ class HkrainfallSpider(Spider):
         reptime = sel.xpath('//span/text()')[0].extract()
         report = sel.xpath('//tr/td[contains(@style,"width:200px;")]/text()').extract()
         for i in range(0,len(report)):
-            stationitem = Hk0RainfallItem()
+            stationitem = RainfallItem()
             stationitem['scraptime'] = datetime.now(pytz.utc)
             stationitem['reptime'] = self.parse_time(reptime)
             stationitem['ename'] = report[i]
@@ -53,8 +47,9 @@ class HkrainfallSpider(Spider):
             except KeyError:
                 pass
             rainfall = sel.xpath('//tr/td[contains(@style,"width:90px;")]/text()')[i].extract()
-            rainfall = int(re.sub(' mm','',rainfall))
-            stationitem['rainfall'] = rainfall
+            rainfall = re.split(" to ", re.sub(' mm','',rainfall))
+            stationitem['rainfallmin'] = rainfall[0]
+            stationitem['rainfallmax'] = rainfall[1]
             stationitems.append(stationitem)
         return stationitems
 

@@ -1,20 +1,16 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-#       regionalwx.py
-#       
-#       Copyright 2013 Sammy Fung <sammy@sammy.hk>
-
-from scrapy.spiders import Spider
+# Web Scraping for Hong Kong Observatory 10-minute update regional weather data.
+import scrapy
 from scrapy.selector import Selector
 import logging
-from hk0weather.items import Hk0RegionalItem
-from .stations import hko
+from hk0weather.items import RegionalItem
+from hk0weather.hko import hko
 import re, pytz
 from datetime import datetime
 
-class RegionalwxSpider(Spider):
-    name = "regionalwx"
+
+class RegionalSpider(scrapy.Spider):
+    name = "regional"
     allowed_domains = ["weather.gov.hk"]
     start_urls = (
         'http://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
@@ -95,12 +91,12 @@ class RegionalwxSpider(Spider):
             # __module__ and __name__
             # Scrapy Item: scrapy.item.ItemMeta
             # Scrapy DjangoItem: scrapy_djangoitem.DjangoItemMeta
-            if Hk0RegionalItem.__class__.__module__ == 'scrapy_djangoitem':
-                stationitem = Hk0RegionalItem()
+            if RegionalItem.__class__.__module__ == 'scrapy_djangoitem':
+                stationitem = RegionalItem()
                 for key2 in stations[key]:
                     stationitem[key2] = stations[key][key2]
-            elif Hk0RegionalItem.__class__.__module__ == 'scrapy.item':
-                stationitem = Hk0RegionalItem()
+            elif RegionalItem.__class__.__module__ == 'scrapy.item':
+                stationitem = RegionalItem()
                 for key2 in stations[key]:
                     stationitem[key2] = stations[key][key2]
             stationitems.append(stationitem)

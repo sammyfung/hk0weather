@@ -1,62 +1,70 @@
+# -*- coding: utf-8 -*-
+
+# Define here the models for your scraped items
+#
+# See documentation in:
+# https://docs.scrapy.org/en/latest/topics/items.html
+
 try:
     from scrapy_djangoitem import DjangoItem
     from openweather.models import WeatherData, RainfallData, ReportData
 
-    class Hk0RegionalItem(DjangoItem):
+    class RegionalItem(DjangoItem):
         django_model = WeatherData
 
-    class Hk0RainfallItem(DjangoItem):
+    class RainfallItem(DjangoItem):
         django_model = RainfallData
 
     class ReportItem(DjangoItem):
         django_model = ReportData
 except ImportError:
-    from scrapy.item import Item, Field
+    import scrapy
 
-    class Hk0RegionalItem(Item):
-        scraptime = Field()
-        reptime = Field()
-        station = Field()
-        ename = Field()
-        cname = Field()
-        temperture = Field()
-        humidity = Field()
-        temperturemax = Field()
-        temperturemin = Field()
-        winddirection = Field()
-        windspeed = Field()
-        maxgust = Field()
-        pressure = Field()
+    class RegionalItem(scrapy.Item):
+        scraptime = scrapy.Field()
+        reptime = scrapy.Field()
+        station = scrapy.Field()
+        ename = scrapy.Field()
+        cname = scrapy.Field()
+        temperture = scrapy.Field()
+        humidity = scrapy.Field()
+        temperturemax = scrapy.Field()
+        temperturemin = scrapy.Field()
+        winddirection = scrapy.Field()
+        windspeed = scrapy.Field()
+        maxgust = scrapy.Field()
+        pressure = scrapy.Field()
 
-    class Hk0RainfallItem(Item):
-        scraptime = Field()
-        reptime = Field()
-        ename = Field()
-        cname = Field()
-        rainfall = Field()
+    class RainfallItem(scrapy.Item):
+        scraptime = scrapy.Field()
+        reptime = scrapy.Field()
+        ename = scrapy.Field()
+        cname = scrapy.Field()
+        rainfallmin = scrapy.Field()
+        rainfallmax = scrapy.Field()
 
-    class ReportItem(Item):
-        reptime = Field()
-        agency = Field()
-        reptype = Field()
-        lang = Field()
-        report = Field()
+    class ReportItem(scrapy.Item):
+        reptime = scrapy.Field()
+        agency = scrapy.Field()
+        reptype = scrapy.Field()
+        lang = scrapy.Field()
+        report = scrapy.Field()
 
-    class Hk0WeatherItem(Item):
-        time = Field()
-        station = Field()
-        ename = Field()
-        cname = Field()
-        temperture = Field()
-        humidity = Field()
+    class Hk0WeatherItem(scrapy.Item):
+        time = scrapy.Field()
+        station = scrapy.Field()
+        ename = scrapy.Field()
+        cname = scrapy.Field()
+        temperture = scrapy.Field()
+        humidity = scrapy.Field()
 
-    class Hk0TropicalItem(Item):
-        time = Field()
-        postime = Field()
-        x = Field()
-        y = Field()
-        category = Field()
-        windspeed = Field()
-        tctype = Field()
+    class Hk0TropicalItem(scrapy.Item):
+        time = scrapy.Field()
+        postime = scrapy.Field()
+        x = scrapy.Field()
+        y = scrapy.Field()
+        category = scrapy.Field()
+        windspeed = scrapy.Field()
+        tctype = scrapy.Field()
 
 
