@@ -50,7 +50,7 @@ class RegionalSpider(scrapy.Spider):
                 for j in range(0,len(data)):
                     if data[j].isdigit():
                         stations[laststation]['humidity'] = int(data[j])
-                    else:
+                    elif laststation != '':
                         try:
                             if j == 1:
                                 stations[laststation]['temperture'] = float(data[j])
