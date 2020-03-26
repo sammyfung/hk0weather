@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sammyfung/hk0weather.svg?branch=master)](https://travis-ci.org/sammyfung/hk0weather)
+
 hk0weather
 ===
 
