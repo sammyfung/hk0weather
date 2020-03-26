@@ -1,4 +1,5 @@
-scrapy crawl regional -t csv -o test.csv
+rm -f test.csv
+scrapy crawl regional -t csv -o test.csv --nolog
 line_count=`wc -l test.csv | cut -c 7-8`
 if [ ${line_count} -eq " 0" ]
 then

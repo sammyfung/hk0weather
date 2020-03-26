@@ -1,4 +1,4 @@
 language: python
 script:
-  - tests/list_tests.sh
-  - tests/regional_tests.sh
+  - bash tests/list_tests.sh
+  - bash tests/regional_tests.sh
