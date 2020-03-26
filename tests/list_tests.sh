@@ -1,1 +1,1 @@
-scrapy list | grep regionaltest 
+scrapy list | grep regional
