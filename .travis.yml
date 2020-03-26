@@ -1,3 +1,4 @@
 language: python
 script:
   - tests/list_tests.sh
+  - tests/regional_tests.sh
