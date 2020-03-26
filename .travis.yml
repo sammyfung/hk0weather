@@ -1,4 +1,6 @@
 language: python
+dist: xenial
+os: linux
 script:
   - bash tests/list_tests.sh
   - bash tests/regional_tests.sh
