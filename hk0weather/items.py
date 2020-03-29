@@ -14,9 +14,6 @@ try:
 
     class RainfallItem(DjangoItem):
         django_model = RainfallData
-
-    class ReportItem(DjangoItem):
-        django_model = ReportData
 except ImportError:
     import scrapy
 
@@ -42,13 +39,6 @@ except ImportError:
         cname = scrapy.Field()
         rainfallmin = scrapy.Field()
         rainfallmax = scrapy.Field()
-
-    class ReportItem(scrapy.Item):
-        reptime = scrapy.Field()
-        agency = scrapy.Field()
-        reptype = scrapy.Field()
-        lang = scrapy.Field()
-        report = scrapy.Field()
 
     class Hk0WeatherItem(scrapy.Item):
         time = scrapy.Field()
