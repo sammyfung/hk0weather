@@ -1,37 +1,41 @@
 # -*- coding: utf-8 -*-
 from scrapy.spiders import Spider
-from scrapy.selector import Selector
-from hk0weather.items import ReportItem
+from hk0weather.items import ShortForecastItem
+import json, re
 from datetime import datetime
-import re, pytz
+
 
 class HkoforecastSpider(Spider):
+    '''
+    HKOweather short term forecast open data
+    https://data.gov.hk/en-data/dataset/hk-hko-rss-local-weather-forecast
+    '''
     name = "hkoforecast"
     allowed_domains = ["weather.gov.hk"]
     start_urls = (
-        'http://www.weather.gov.hk/wxinfo/currwx/flwc.htm',
-        'http://www.weather.gov.hk/wxinfo/currwx/flw.htm',
+        'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=en',
+        'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=tc',
         )
+    forecast = ShortForecastItem()
 
     def parse(self, response):
-        sel = Selector(response)
-        forecast = ReportItem()
-        forecast['agency'] = 'HKO'
-        forecast['reptype'] = 'forecast'
-        forecast['reptime'] = datetime.strptime(response.headers['Last-Modified'].decode(encoding='UTF-8'),'%a, %d %b %Y %X %Z').replace(tzinfo = pytz.utc)
-        if re.search('flwc.htm', response.url):
-            forecast['lang'] = "zh_TW"
-            forecast['report'] = sel.xpath('//span/text()').extract()[0]
-            line = sel.xpath('//div[@id="ming"]').extract()
-            for i in line:
-                i = re.sub('<[^<]+?>', '', i)
-                forecast['report'] += i
-            forecast['report'] = re.sub('\t\t\t', '\r\n', forecast['report'])
-        else:
-            forecast['lang'] = "en"
-            forecast['report'] = sel.xpath('//span/text()').extract()[0]
-            # forecast['report'] += sel.xpath('//div').extract()[5]
-            forecast['report'] += sel.xpath('//div')[25].xpath('div/div').extract()[0]
-            forecast['report'] = re.sub('<br[^>]*>', '\r\n', forecast['report'])
-            forecast['report'] = re.sub('<[^<]+?>', '', forecast['report'])
-        return forecast
+        self.forecast['scrape_time'] = datetime.now()
+        data = json.loads(response.text)
+        self.forecast['update_time'] = data['updateTime']
+        if re.search('\&lang=en', response.url):
+            self.forecast['general_en'] = data['generalSituation']
+            self.forecast['period_en'] = data['forecastPeriod']
+            self.forecast['forecast_en'] = data['forecastDesc']
+            self.forecast['outlook_en'] = data['outlook']
+        elif re.search('\&lang=tc', response.url):
+            self.forecast['general_hk'] = data['generalSituation']
+            self.forecast['period_hk'] = data['forecastPeriod']
+            self.forecast['forecast_hk'] = data['forecastDesc']
+            self.forecast['outlook_hk'] = data['outlook']
+        try:
+            assert len(self.forecast['general_en']) > 0
+            assert len(self.forecast['general_hk']) > 0
+            return self.forecast
+        except KeyError:
+            # ignore if any field is missing.
+            pass

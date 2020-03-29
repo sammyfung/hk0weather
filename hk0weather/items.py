@@ -83,3 +83,16 @@ class ForecastItem(scrapy.Item):
     min_rh = scrapy.Field()
     icon = scrapy.Field()
 
+
+class ShortForecastItem(scrapy.Item):
+    scrape_time = scrapy.Field()
+    update_time = scrapy.Field()
+    general_en = scrapy.Field()
+    general_hk = scrapy.Field()
+    period_en = scrapy.Field()
+    period_hk = scrapy.Field()
+    forecast_en = scrapy.Field()
+    forecast_hk = scrapy.Field()
+    outlook_en = scrapy.Field()
+    outlook_hk = scrapy.Field()
+

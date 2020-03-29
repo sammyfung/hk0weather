@@ -4,6 +4,7 @@ os: linux
 script:
   - bash tests/list_tests.sh
   - bash tests/regional_tests.sh
+  - bash tests/forecast_tests.sh
   - bash tests/9dayforecast_tests.sh
 after_success:
   - bash <(curl -s https://codecov.io/bash)
