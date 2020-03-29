@@ -1,5 +1,4 @@
-Scrapy==1.8.0
-pytz==2017.3
-Twisted==19.7.0
+Scrapy==2.0.1
+pytz==2019.3
 Django==2.2.10
 scrapy-djangoitem==1.1.1

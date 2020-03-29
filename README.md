@@ -12,12 +12,12 @@ Optionally, this project supports a Django app 'openweather' to store the collec
 Available Spiders
 ---
 1. **regional**: Hong Kong Regional Weather Data in 10-minutes update from HKO.    
-2. **rainfall**: Hong Kong Rainfall Data in hourly update from HKO.    
+1. **rainfall**: Hong Kong Rainfall Data in hourly update from HKO.    
+1. **hko9dayforecast**: Hong Kong 9-day Weather Report from HKO.   
 
 The following spiders are outdated and no longer in use, they will be removed.
-1. hko9dayforecast (under development): Hong Kong 9 day Weather Report from HKO.   
-2. hkocurrwx: Current Hourly Hong Kong Weather Report from HKO.    
-3. hkoforecast: Hong Kong Next 24 hour Weather Forecast Report from HKO.   
+1. hkocurrwx: Current Hourly Hong Kong Weather Report from HKO.    
+1. hkoforecast: Hong Kong Next 24 hour Weather Forecast Report from HKO.   
 
 
 Installation Example

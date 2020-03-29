@@ -68,3 +68,18 @@ except ImportError:
         tctype = scrapy.Field()
 
 
+class ForecastItem(scrapy.Item):
+    update_time = scrapy.Field()
+    date = scrapy.Field()
+    general_en = scrapy.Field()
+    general_hk = scrapy.Field()
+    description_en = scrapy.Field()
+    description_hk = scrapy.Field()
+    wind_en = scrapy.Field()
+    wind_hk  = scrapy.Field()
+    max_temp = scrapy.Field()
+    min_temp = scrapy.Field()
+    max_rh = scrapy.Field()
+    min_rh = scrapy.Field()
+    icon = scrapy.Field()
+
