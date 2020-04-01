@@ -32,7 +32,7 @@ Installation Example
 2) Optional: Setup hk0weather to use openweather
 
    ```
-   pip install -r requirements-with-django.txt    
+   pip install -r requirements-django.txt    
    cd ..   
    django-admin startproject yourweatherproject   
    cd yourweatherproject   
