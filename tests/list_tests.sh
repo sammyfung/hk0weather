@@ -1,1 +1,1 @@
-scrapy list | grep regional
+scrapy list | grep regional > /dev/null
