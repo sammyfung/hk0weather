@@ -3,8 +3,8 @@ dist: xenial
 os: linux
 script:
   - coverage run -m scrapy list
-  - coverage run -m scrapy crawl regional
-  - coverage run -m scrapy crawl hkoforecast
-  - coverage run -m scrapy crawl hko9dayforecast
+  - coverage run -m scrapy crawl regional -t csv -o regional.csv
+  - coverage run -m scrapy crawl hkoforecast -t csv -o hkoforecast.csv
+  - coverage run -m scrapy crawl hko9dayforecast -t csv -o hko9dayforecast.csv
 after_success:
   - bash <(curl -s https://codecov.io/bash)
