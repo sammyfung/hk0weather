@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/sammyfung/hk0weather.svg?branch=master)](https://travis-ci.com/sammyfung/hk0weather)
+[![codecov](https://codecov.io/gh/sammyfung/hk0weather/branch/master/graph/badge.svg?token=PYnOIj6SwS)](https://codecov.io/gh/sammyfung/hk0weather/)
 
 hk0weather
 ===

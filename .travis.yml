@@ -2,9 +2,9 @@ language: python
 dist: xenial
 os: linux
 script:
-  - bash tests/list_tests.sh
-  - bash tests/spider_test.sh regional
-  - bash tests/spider_test.sh hkoforecast
-  - bash tests/spider_test.sh hko9dayforecast
+  - coverage run -m scrapy list
+  - coverage run -m scrapy crawl regional
+  - coverage run -m scrapy crawl hkoforecast
+  - coverage run -m scrapy crawl hko9dayforecast
 after_success:
   - bash <(curl -s https://codecov.io/bash)
