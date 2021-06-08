@@ -92,6 +92,12 @@ and optionally use -t (file format) and -o (filename) to output the data in a js
 scrapy crawl regional -t json -o test.json
 ```
 
+## Sponsors
+
+Calvin Tsang.
+
+Thanks for my sponsors, please consider to [sponsor](https://github.com/sponsors/sammyfung) my works.
+
 References
 --
 
