@@ -1,4 +1,4 @@
-Scrapy==2.0.1
+Scrapy==2.5.1
 pytz==2019.3
 attrs>=19.2.0
 coverage==5.3
