@@ -6,6 +6,7 @@ jobs:
     steps:
       - name: Tests Scrapers
         run: |
+          pip install -r requirements.txt
           coverage run -m scrapy list
           coverage run -m scrapy crawl regional -t csv -o regional.csv
           coverage run -m scrapy crawl hkoforecast -t csv -o hkoforecast.csv
