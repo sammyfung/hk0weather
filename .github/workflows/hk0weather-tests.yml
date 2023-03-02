@@ -1,15 +1,16 @@
 name: hk0weather-tests
 on: [push]
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Tests Scrapers
-      run: |
-        coverage run -m scrapy list
-        coverage run -m scrapy crawl regional -t csv -o regional.csv
-        coverage run -m scrapy crawl hkoforecast -t csv -o hkoforecast.csv
-        coverage run -m scrapy crawl hko9dayforecast -t csv -o hko9dayforecast.csv
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      run: |
-        bash <(curl -s https://codecov.io/bash)
+  do-hk0weather-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tests Scrapers
+        run: |
+          coverage run -m scrapy list
+          coverage run -m scrapy crawl regional -t csv -o regional.csv
+          coverage run -m scrapy crawl hkoforecast -t csv -o hkoforecast.csv
+          coverage run -m scrapy crawl hko9dayforecast -t csv -o hko9dayforecast.csv
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        run: |
+          bash <(curl -s https://codecov.io/bash)
