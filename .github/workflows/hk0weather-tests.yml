@@ -12,4 +12,3 @@ jobs:
           coverage run -m scrapy crawl hko9dayforecast -t csv -o hko9dayforecast.csv
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
-        token: ${{ secrets.CODECOV_TOKEN }}
