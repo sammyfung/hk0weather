@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/sammyfung/hk0weather.svg?branch=master)](https://travis-ci.com/sammyfung/hk0weather)
-[![codecov](https://codecov.io/gh/sammyfung/hk0weather/branch/master/graph/badge.svg?token=PYnOIj6SwS)](https://codecov.io/gh/sammyfung/hk0weather/)
+![hk0weather-tests.yml workflow](https://github.com/sammyfung/hk0weather/actions/workflows/hk0weather-tests.yml/badge.svg)
+![codecov](https://codecov.io/gh/sammyfung/hk0weather/branch/master/graph/badge.svg?token=PYnOIj6SwS)](https://codecov.io/gh/sammyfung/hk0weather/)
 
 hk0weather
 ===
