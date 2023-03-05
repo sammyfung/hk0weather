@@ -7,16 +7,24 @@ jobs:
       PYTHON: '3.9'
     steps:
       - uses: actions/checkout@master
-      - name: Setup Python
+      - name: Setup python
         uses: actions/setup-python@master
         with:
           python-version: 3.9
-      - name: Tests Scrapers
+      - name: Install required python packages
         run: |
           pip install -r requirements.txt
+      - name: List available scrapers
+        run: |
           coverage run -m scrapy list
-          coverage run -m scrapy crawl regional -t csv -o regional.csv
-          coverage run -m scrapy crawl hkoforecast -t csv -o hkoforecast.csv
-          coverage run -m scrapy crawl hko9dayforecast -t csv -o hko9dayforecast.csv
+      - name: Test a scraper of regional weather
+        run: |
+          coverage run -m scrapy crawl regional -o regional.csv:csv
+      - name: Test a scraper of daily weather forecast
+        run: |
+          coverage run -m scrapy crawl hkoforecast -o hkoforecast.csv:csv
+      - name: Test a scraper of 9-day weather forecast
+        run: |
+          coverage run -m scrapy crawl hko9dayforecast -o hko9dayforecast.csv:csv
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

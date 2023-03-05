@@ -85,7 +85,10 @@ class RegionalSpider(scrapy.Spider):
                 except ValueError:
                     pass
             elif len(data) == 2:
-                stations[laststation]['pressure'] = float(data[1])
+                try:
+                    stations[laststation]['pressure'] = float(data[1])
+                except ValueError:
+                    pass
 
         for key in stations:
             # __module__ and __name__
