@@ -29,6 +29,7 @@ jobs:
       - name: List available scrapers
         run: |
           coverage run -a -m scrapy list
+        working-directory: hk0weather
       - name: Test a scraper of regional weather
         run: |
           coverage run -a -m scrapy crawl regional -o regional.csv
