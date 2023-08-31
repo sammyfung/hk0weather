@@ -87,16 +87,3 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-
-# Initialize Django web framework for data store
-# Use environment variable PYTHONPATH for abspath to Django project
-# and DJANGO_SETTINGS_MODULE for Settings filename of Django project
-try:
-    import django
-    try:
-        django.setup()
-    except django.core.exceptions.ImproperlyConfigured:
-        pass
-except ImportError:
-    # Allow to work without Django
-    pass

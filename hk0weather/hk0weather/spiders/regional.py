@@ -49,7 +49,10 @@ class RegionalSpider(scrapy.Spider):
             if len(data) > 5:
                 for j in range(0,len(data)):
                     if data[j].isdigit():
-                        stations[laststation]['humidity'] = int(data[j])
+                        #try:
+                            stations[laststation]['humidity'] = int(data[j])
+                        #except:
+                        #    print(i)
                     elif laststation != '':
                         try:
                             if j == 1:
@@ -91,17 +94,9 @@ class RegionalSpider(scrapy.Spider):
                     pass
 
         for key in stations:
-            # __module__ and __name__
-            # Scrapy Item: scrapy.item.ItemMeta
-            # Scrapy DjangoItem: scrapy_djangoitem.DjangoItemMeta
-            if RegionalItem.__class__.__module__ == 'scrapy_djangoitem':
-                stationitem = RegionalItem()
-                for key2 in stations[key]:
-                    stationitem[key2] = stations[key][key2]
-            elif RegionalItem.__class__.__module__ == 'scrapy.item':
-                stationitem = RegionalItem()
-                for key2 in stations[key]:
-                    stationitem[key2] = stations[key][key2]
+            stationitem = RegionalItem()
+            for key2 in stations[key]:
+                stationitem[key2] = stations[key][key2]
             stationitems.append(stationitem)
 
         return stationitems

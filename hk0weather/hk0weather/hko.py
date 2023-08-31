@@ -49,6 +49,8 @@ class hko:
         (u'se','Kai Tak'),
         (u'cp1','Central'),
         (u'swh','Sai Wan Ho'),
+        (u'cwb', 'Clear Water Bay'),
+        (u'tls', 'Tai Lung'),
     ]
 
     cnameid = [
@@ -98,6 +100,8 @@ class hko:
         (u'啟德','se'),
         (u'中環','cp1'),
         (u'西灣河','swh'),
+        (u'清水灣', 'cwb'),
+        (u'大隴', 'tls'),
     ]
 
     def getename(self, id):
