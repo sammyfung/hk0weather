@@ -8,56 +8,25 @@ hk0weather is an open source web scraper project using Scrapy to collect the use
 
 Scrapy can output collected weather data into the machine-readable formats (eg. CSV, JSON, XML).
 
-Optionally, this project supports a Django app 'openweather' to store the collected weather data to Django web framework, and the data can be shown on web through the Django admin UI.
-
-Available Spiders
+Available Web Crawlers
 ---
 1. **regional**: Hong Kong Regional Weather Data in 10-minutes update from HKO.    
 1. **rainfall**: Hong Kong Rainfall Data in hourly update from HKO.    
 1. **hkoforecast**: Hong Kong Next 24 hour Weather Forecast Report from HKO Open Data.   
 1. **hko9dayforecast**: Hong Kong 9-day Weather Report from HKO Open Data.   
 
-Installation Example
+Installation
 ---
 
-1) Cloning and setup hk0weather in a Py3 virtual environment   
+Cloning and setup hk0weather in a Py3 virtual environment   
    
    ```
-   git clone https://github.com/sammyfung/hk0weather.git  
-   virtualenv hk0weatherenv  
-   source hk0weatherenv/bin/activate  
-   cd hk0weather   
-   pip install -r requirements.txt    
+   $ git clone https://github.com/sammyfung/hk0weather.git
+   $ cd hk0weather
+   $ python3 -m venv venv
+   $ source venv/bin/activate  
+   $ pip install -r requirements.txt    
    ```
-    
-2) Optional: Setup hk0weather to use openweather
-
-   ```
-   pip install -r requirements-django.txt    
-   cd ..   
-   django-admin startproject yourweatherproject   
-   cd yourweatherproject   
-   git clone https://github.com/sammyfung/openweather.git   
-   ```
-   
-   Please add 'openweather' to INSTALLED_APPS in Django yourweatherproject/settings.py.
-   
-   ```
-   ./manage.py makemigrations    
-   ./manage.py migrate   
-   ./manage.py createsuperuser   
-   ./manage.py runserver &    
-   cd ../hk0weather     
-   ```
-   
-   Django daemon is now running in the background, its web admin UI can be access at [http://localhost:8000/admin](http://localhost:8000/admin). 
-   
-   ```
-   export PYTHONPATH=/your-full-path-to/yourweatherproject    
-   export DJANGO_SETTINGS_MODULE=yourweatherproject.settings   
-   ```
-   
-   Please export PYTHONPATH and DJANGO_SETTINGS_MODULE again after every activation of the Py3 virtual environment.
 
 Run a Scrapy spider
 ---
@@ -65,38 +34,21 @@ Run a Scrapy spider
 Activate the Py3 virtual environment once before the first running of web spiders.
 
 ```
-source hk0weatherenv/bin/activate  
+$ source venv/bin/activate  
+$ cd hk0weather
 ```
 
-Optionally, if Django is in use, export PYTHONPATH and DJANGO_SETTINGS_MODULE.
-
-```
-export PYTHONPATH=/your-full-path-to/yourweatherproject    
-export DJANGO_SETTINGS_MODULE=yourweatherproject.settings   
-```
 Optionally, list all available spiders.
 
 ```
-scrapy list 
+$ scrapy list 
 ```
   
-Run a specific spider (eg. regional) in Scrapy
+Run a regional weather data web crawler and export data to a JSON file.
 
 ```
-scrapy crawl regional   
+$ scrapy crawl regional -o regional.json
 ```
-
-and optionally use -t (file format) and -o (filename) to output the data in a json file.
-   
-```
-scrapy crawl regional -t json -o test.json
-```
-
-## Sponsors
-
-Calvin Tsang.
-
-Thanks for my sponsors, please consider to [sponsor](https://github.com/sponsors/sammyfung) my works.
 
 References
 --

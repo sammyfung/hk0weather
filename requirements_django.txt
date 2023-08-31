@@ -1,2 +1,0 @@
-Django>=2.2.13
-scrapy-djangoitem==1.1.1
