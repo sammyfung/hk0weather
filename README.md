@@ -1,5 +1,5 @@
 [![hk0weather](https://github.com/sammyfung/hk0weather/actions/workflows/hk0weather.yml/badge.svg)](https://github.com/sammyfung/hk0weather/actions/workflows/hk0weather.yml)
-[![codecov](https://codecov.io/gh/sammyfung/hk0weather/branch/master/graph/badge.svg?token=PYnOIj6SwS)](https://codecov.io/gh/sammyfung/hk0weather/)
+[![codecov](https://codecov.io/gh/sammyfung/hk0weather/graph/badge.svg?token=PYnOIj6SwS)](https://codecov.io/gh/sammyfung/hk0weather)
 
 hk0weather
 ===
