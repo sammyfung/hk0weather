@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Hong Kong Observatory station list
 
-class hko:
+class HKO:
     stations = [
         (u'hko', 'Hong Kong Observatory'),
         (u'kp', "King's Park"),

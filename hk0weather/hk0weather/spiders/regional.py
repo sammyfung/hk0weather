@@ -3,8 +3,8 @@
 import scrapy
 from scrapy.selector import Selector
 import logging
-from hk0weather.items import RegionalItem
-from hk0weather.hko import hko
+from hk0weather.items import WeatherItem
+from hk0weather.hko import HKO
 import re, pytz
 from datetime import datetime
 
@@ -15,22 +15,24 @@ class RegionalSpider(scrapy.Spider):
     start_urls = (
         'http://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
     )
+    data_provider_name = 'HKO'
+    sea_level_pressure_unit = 'hPa'
+    temperature_unit = 'C'
+    visibility_unit = 'km'
+    wind_speed_unit = 'kmh'
 
     def parse(self, response):
-        laststation = ''
-        temperture = int()
         stations = {}
-        stationitems = []
+        station_items = []
         sel = Selector(response)
         report = sel.xpath('//pre[@id="ming"]/text()')
-
-        # HKO report time.
-        reptime = self.gettime(report[0].extract())
+        hkt = pytz.timezone('Asia/Hong_Kong')
+        section = 'temperature'
+        report_time = self.get_report_time(report[0].extract())
 
         for i in re.split('\n',report[0].extract()):
             laststation = ''
-            station = {}
-            hkobs = hko()
+            hko = HKO()
             for k,v in hko.cnameid:
                 if re.sub(' ','',i[:6]) == k:
                     laststation = v
@@ -38,15 +40,29 @@ class RegionalSpider(scrapy.Spider):
                         station = stations[laststation]
                     except KeyError:
                         stations[laststation] = {}
-                        stations[laststation]['scraptime'] = datetime.now(pytz.utc)
-                        stations[laststation]['reptime'] = reptime
-                        stations[laststation]['station'] = laststation
-                        stations[laststation]['ename'] = hkobs.getename(laststation)
-                        stations[laststation]['cname'] = hkobs.getcname(laststation)
+                        stations[laststation]['crawler_name'] = self.name
+                        stations[laststation]['data_provider_name'] = self.data_provider_name
+                        stations[laststation]['scraping_time'] = datetime.now(hkt).strftime("%Y-%m-%d %H:%M:%S")
+                        stations[laststation]['report_time'] = report_time.strftime("%Y-%m-%d %H:%M:%S")
+                        stations[laststation]['station_code'] = laststation
+                        stations[laststation]['station_name'] = hko.getename(laststation)
+                        stations[laststation]['station_name_hk'] = hko.getcname(laststation)
             dataline = re.sub('^\s','',i[6:])
             dataline = re.sub('\*',' ',dataline)
             data = re.split('\s+',dataline)
-            if len(data) > 5:
+            # Identify section
+            if re.search('風速及最高陣風風速', i):
+                section = 'wind'
+            elif re.search('平均海平面氣壓', i):
+                section = 'pressure'
+            elif re.search('十分鐘平均能見度', i):
+                section = 'visibility'
+            elif re.search('太陽總輻射量', i):
+                section = 'solarradiation'
+            # Handling sections
+            if section == 'temperature' and laststation != '':
+                # Temperature section
+                stations[laststation]['temperature_unit'] = self.temperature_unit
                 for j in range(0,len(data)):
                     if data[j].isdigit():
                         #try:
@@ -56,58 +72,76 @@ class RegionalSpider(scrapy.Spider):
                     elif laststation != '':
                         try:
                             if j == 1:
-                                stations[laststation]['temperture'] = float(data[j])
+                                stations[laststation]['temperature'] = float(data[j])
                             elif j == 3:
-                                stations[laststation]['temperturemax'] = float(data[j])
+                                stations[laststation]['temperature_max'] = float(data[j])
                             elif j == 5:
-                                stations[laststation]['temperturemin'] = float(data[j])
+                                stations[laststation]['temperature_min'] = float(data[j])
                         except ValueError:
                             pass
                         except KeyError:
                             logging.warning("KeyError on Regional Weather Information: station %s, field %s"%(laststation,j))
-            elif len(data) == 4 and laststation!='':
-                # wind direction, wind speed, maximum gust.
-                data[1] = re.sub(u'東南','Southeast', data[1])
-                data[1] = re.sub(u'東北','Northeast', data[1])
-                data[1] = re.sub(u'西南','Southwest', data[1])
-                data[1] = re.sub(u'西北','Northwest', data[1])
-                data[1] = re.sub(u'東','East', data[1])
-                data[1] = re.sub(u'南','South', data[1])
-                data[1] = re.sub(u'西','West', data[1])
-                data[1] = re.sub(u'北','North', data[1])
-                # 風向不定
-                if not(re.search(u'^[A-Z].*',data[1])):
-                    data[1] = 'Variable'
-                stations[laststation]['winddirection'] = data[1]
+            elif section == 'wind' and laststation != '':
+                # Wind section - wind direction, speed, and maximum gust.
+                stations[laststation]['wind_speed_unit'] = self.wind_speed_unit
+                # Wind direction
+                data[1] = re.sub('東南','southeast', data[1])
+                data[1] = re.sub('東北','northeast', data[1])
+                data[1] = re.sub('西南','southwest', data[1])
+                data[1] = re.sub('西北','northwest', data[1])
+                data[1] = re.sub('東','east', data[1])
+                data[1] = re.sub('南','south', data[1])
+                data[1] = re.sub('西','west', data[1])
+                data[1] = re.sub('北','north', data[1])
+                if not(re.search('^[a-z].*',data[1])):
+                    # Variable wind direction
+                    data[1] = 'variable'
+                stations[laststation]['wind_direction'] = data[1]
+                # Wind Speed
                 try:
-                    stations[laststation]['windspeed'] = int(data[2])
+                    stations[laststation]['wind_speed'] = int(data[2])
                 except ValueError:
                     pass
+                # Max Gust
                 try:
-                    stations[laststation]['maxgust'] = int(data[3])
+                    stations[laststation]['wind_max_gust'] = int(data[3])
                 except ValueError:
                     pass
-            elif len(data) == 2:
+            elif section == 'pressure' and laststation != '':
+                # Sea Level Pressure section
+                stations[laststation]['sea_level_pressure_unit'] = self.sea_level_pressure_unit
                 try:
-                    stations[laststation]['pressure'] = float(data[1])
+                    stations[laststation]['sea_level_pressure'] = float(data[1])
                 except ValueError:
+                    stations[laststation]['sea_level_pressure'] = float(data[0])
+                except IndexError:
+                    print(data)
+            elif section == 'visibility' and laststation != '':
+                # 10-Minute Mean Visibility
+                stations[laststation]['visibility_unit'] = self.visibility_unit
+                try:
+                    stations[laststation]['visibility_distance'] = int(data[1])
+                except ValueError:
+                    stations[laststation]['visibility_distance'] = data
                     pass
+                except IndexError:
+                    print(data)
 
         for key in stations:
-            stationitem = RegionalItem()
+            station_item = WeatherItem()
             for key2 in stations[key]:
-                stationitem[key2] = stations[key][key2]
-            stationitems.append(stationitem)
+                station_item[key2] = stations[key][key2]
+            station_items.append(station_item)
 
-        return stationitems
+        return station_items
 
-    def gettime(self, report):
+    def get_report_time(self, report):
         report = report.split('\n')
         for i in report:
-            if re.search(u'錄得的天氣資料', i):
-                t = re.sub(u'錄得的天氣資料.*','', i)
-                t = re.sub(u' ','0', t)
-                t = re.sub(u'[年月日時分]',' ', t)
-                t = datetime.strptime(t,u'%Y %m %d %H %M ').replace(tzinfo = pytz.timezone('Etc/GMT-8'))
+            if re.search('錄得的天氣資料', i):
+                t = re.sub('錄得的天氣資料.*','', i)
+                t = re.sub(' ','0', t)
+                t = re.sub('[年月日時分]',' ', t)
+                t = datetime.strptime(t, '%Y %m %d %H %M ').replace(tzinfo = pytz.timezone('Etc/GMT-8'))
                 return t
 
