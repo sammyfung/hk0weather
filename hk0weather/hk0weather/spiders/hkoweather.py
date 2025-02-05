@@ -5,8 +5,7 @@ import scrapy
 from scrapy.selector import Selector
 import logging
 from hk0weather.items import WeatherItem
-from hk0weather.hko import HKO
-import re, pytz
+import re, pytz, os, json
 from datetime import datetime
 
 
@@ -21,6 +20,15 @@ class HkoweatherSpider(scrapy.Spider):
     temperature_unit = 'C'
     visibility_unit = 'km'
     wind_speed_unit = 'kmh'
+
+    def __init__(self, *args, **kwargs):
+        super(HkoweatherSpider, self).__init__(*args, **kwargs)
+        # Load JSON data from the specified file
+        spider_dir = os.path.dirname(os.path.abspath(__file__))
+        # Construct the full path to the JSON file
+        json_file = os.path.join(spider_dir, '../data/hko_stations.json')
+        with open(json_file, 'r', encoding='utf-8') as file:
+            self.hko_stations = json.load(file)
 
     def parse(self, response):
         if response.url == 'https://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm':
@@ -39,25 +47,6 @@ class HkoweatherSpider(scrapy.Spider):
         report_time = self.get_report_time(report[0].extract())
 
         for i in re.split('\n',report[0].extract()):
-            laststation = ''
-            hko = HKO()
-            for k,v in hko.cnameid:
-                if re.sub(' ','',i[:6]) == k:
-                    laststation = v
-                    try:
-                        station = stations[laststation]
-                    except KeyError:
-                        stations[laststation] = {}
-                        stations[laststation]['crawler_name'] = self.name
-                        stations[laststation]['data_provider_name'] = self.data_provider_name
-                        stations[laststation]['scraping_time'] = datetime.now(hkt).isoformat(timespec='milliseconds')
-                        stations[laststation]['report_time'] = report_time.isoformat(timespec='milliseconds')
-                        stations[laststation]['station_code'] = laststation
-                        stations[laststation]['station_name'] = hko.getename(laststation)
-                        stations[laststation]['station_name_hk'] = hko.getcname(laststation)
-            dataline = re.sub('^\s','',i[6:])
-            dataline = re.sub('\*',' ',dataline)
-            data = re.split('\s+',dataline)
             # Identify section
             if re.search('風速及最高陣風風速', i):
                 section = 'wind'
@@ -67,6 +56,26 @@ class HkoweatherSpider(scrapy.Spider):
                 section = 'visibility'
             elif re.search('太陽總輻射量', i):
                 section = 'solarradiation'
+            laststation = self.get_code_by_name(re.sub(' ','',i[:6]), lang='chinese_name')
+            if laststation:
+                try:
+                    station = stations[laststation]
+                except KeyError:
+                    stations[laststation] = {}
+                    stations[laststation]['crawler_name'] = self.name
+                    stations[laststation]['data_provider_name'] = self.data_provider_name
+                    stations[laststation]['scraping_time'] = datetime.now(hkt).isoformat(timespec='milliseconds')
+                    stations[laststation]['report_time'] = report_time.isoformat(timespec='milliseconds')
+                    stations[laststation]['station_code'] = laststation
+                    stations[laststation]['station_name'] = self.hko_stations[laststation]['english_name']
+                    stations[laststation]['station_name_hk'] = self.hko_stations[laststation]['chinese_name']
+            else:
+                continue
+
+            dataline = re.sub('^\s','',i[6:])
+            dataline = re.sub('\*',' ',dataline)
+            data = re.split('\s+',dataline)
+
             # Handling sections
             if section == 'temperature' and laststation != '':
                 # Temperature section
@@ -153,3 +162,8 @@ class HkoweatherSpider(scrapy.Spider):
                 t = datetime.strptime(t, '%Y %m %d %H %M ').replace(tzinfo = pytz.timezone('Etc/GMT-8'))
                 return t
 
+    def get_code_by_name(self, station_name, lang='english_name'):
+        for key, value in self.hko_stations.items():
+            if value[lang] == station_name:
+                return key
+        return None
