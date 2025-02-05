@@ -10,7 +10,7 @@ Scrapy can output collected weather data into the machine-readable formats (eg. 
 
 Available Web Crawlers
 ---
-1. **regional**: Hong Kong Regional Weather Data in 10-minutes update from HKO.    
+1. **hkoweather**: Hong Kong Regional Weather Data in 10-minutes update from HKO.    
 1. **rainfall**: Hong Kong Rainfall Data in hourly update from HKO.    
 1. **hkoforecast**: Hong Kong Next 24 hour Weather Forecast Report from HKO Open Data.   
 1. **hko9dayforecast**: Hong Kong 9-day Weather Report from HKO Open Data.   
@@ -47,7 +47,7 @@ $ scrapy list
 Run a regional weather data web crawler and export data to a JSON file.
 
 ```
-$ scrapy crawl regional -o regional.json
+$ scrapy crawl hkoweather -o hkoweather.json
 ```
 
 References

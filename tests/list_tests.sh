@@ -1,1 +1,1 @@
-scrapy list | grep regional > /dev/null
+scrapy list | grep hkoweather > /dev/null
