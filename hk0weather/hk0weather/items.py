@@ -31,24 +31,6 @@ class RainfallItem(scrapy.Item):
     rainfallmin = scrapy.Field()
     rainfallmax = scrapy.Field()
 
-class Hk0WeatherItem(scrapy.Item):
-    time = scrapy.Field()
-    station = scrapy.Field()
-    ename = scrapy.Field()
-    cname = scrapy.Field()
-    temperture = scrapy.Field()
-    humidity = scrapy.Field()
-
-class Hk0TropicalItem(scrapy.Item):
-    time = scrapy.Field()
-    postime = scrapy.Field()
-    x = scrapy.Field()
-    y = scrapy.Field()
-    category = scrapy.Field()
-    windspeed = scrapy.Field()
-    tctype = scrapy.Field()
-
-
 class ForecastItem(scrapy.Item):
     update_time = scrapy.Field()
     date = scrapy.Field()

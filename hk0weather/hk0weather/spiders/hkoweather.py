@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Web Scraping for Hong Kong Observatory 10-minute update regional weather data.
+# Web Scraping for Hong Kong weather data from Hong Kong Observatory
+# - regional weather data updated by 10 minutes.
 import scrapy
 from scrapy.selector import Selector
 import logging
@@ -9,11 +10,11 @@ import re, pytz
 from datetime import datetime
 
 
-class RegionalSpider(scrapy.Spider):
-    name = "regional"
+class HkoweatherSpider(scrapy.Spider):
+    name = "hkoweather"
     allowed_domains = ["weather.gov.hk"]
     start_urls = (
-        'http://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
+        'https://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm',
     )
     data_provider_name = 'HKO'
     sea_level_pressure_unit = 'hPa'
@@ -22,6 +23,13 @@ class RegionalSpider(scrapy.Spider):
     wind_speed_unit = 'kmh'
 
     def parse(self, response):
+        if response.url == 'https://www.weather.gov.hk/wxinfo/ts/text_readings_c.htm':
+            items = self.parse_weather_info(response)
+        else:
+            items = None
+        return items
+
+    def parse_weather_info(self, response):
         stations = {}
         station_items = []
         sel = Selector(response)
@@ -42,8 +50,8 @@ class RegionalSpider(scrapy.Spider):
                         stations[laststation] = {}
                         stations[laststation]['crawler_name'] = self.name
                         stations[laststation]['data_provider_name'] = self.data_provider_name
-                        stations[laststation]['scraping_time'] = datetime.now(hkt).strftime("%Y-%m-%d %H:%M:%S")
-                        stations[laststation]['report_time'] = report_time.strftime("%Y-%m-%d %H:%M:%S")
+                        stations[laststation]['scraping_time'] = datetime.now(hkt).isoformat(timespec='milliseconds')
+                        stations[laststation]['report_time'] = report_time.isoformat(timespec='milliseconds')
                         stations[laststation]['station_code'] = laststation
                         stations[laststation]['station_name'] = hko.getename(laststation)
                         stations[laststation]['station_name_hk'] = hko.getcname(laststation)
