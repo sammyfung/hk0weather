@@ -11,9 +11,8 @@ Scrapy can output collected weather data into the machine-readable formats (eg. 
 Available Web Crawlers
 ---
 1. **hkoweather**: Hong Kong Regional Weather Data in 10-minutes update from HKO.    
+1. **hkoforecast**: Hong Kong Weather Forecast Data from HKO Open Data including next 24 hours and 9 day.
 1. **rainfall**: Hong Kong Rainfall Data in hourly update from HKO.    
-1. **hkoforecast**: Hong Kong Next 24 hour Weather Forecast Report from HKO Open Data.   
-1. **hko9dayforecast**: Hong Kong 9-day Weather Report from HKO Open Data.   
 
 Installation
 ---
