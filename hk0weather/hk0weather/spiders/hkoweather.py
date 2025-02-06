@@ -72,9 +72,9 @@ class HkoweatherSpider(scrapy.Spider):
             else:
                 continue
 
-            dataline = re.sub('^\s','',i[6:])
-            dataline = re.sub('\*',' ',dataline)
-            data = re.split('\s+',dataline)
+            dataline = re.sub('^ ','',i[6:])
+            dataline = re.sub('\\*',' ',dataline)
+            data = re.split(' +',dataline)
 
             # Handling sections
             if section == 'temperature' and laststation != '':

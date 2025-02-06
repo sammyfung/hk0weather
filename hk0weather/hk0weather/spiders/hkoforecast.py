@@ -53,14 +53,14 @@ class HkoforecastSpider(Spider):
         outlook_item = ForecastItem()
         outlook_item.update(item)
 
-        if re.search('\&lang=en', response.url):
+        if re.search('&lang=en', response.url):
             item['forecast_category'] = 'general_situation'
             item['description'] = data['generalSituation']
             forecast_item['forecast_category'] = 'forecast'
             forecast_item['description'] = data['forecastDesc']
             outlook_item['forecast_category'] = 'outlook'
             outlook_item['description'] = data['outlook']
-        elif re.search('\&lang=tc', response.url):
+        elif re.search('&lang=tc', response.url):
             language = 'zh_hk'
             item['language'] = language
             item['forecast_category'] = 'general_situation'
@@ -87,9 +87,9 @@ class HkoforecastSpider(Spider):
         item['report_time'] = datetime.fromisoformat(data['updateTime']).isoformat(timespec='milliseconds')
         item['forecast_type'] = 'forecast_9day'
         item['language'] = 'en'
-        if re.search('\&lang=en', response.url):
+        if re.search('&lang=en', response.url):
             item['language'] = 'en'
-        elif re.search('\&lang=tc', response.url):
+        elif re.search('&lang=tc', response.url):
             item['language'] = 'zh_hk'
 
         first_forecast_date = None

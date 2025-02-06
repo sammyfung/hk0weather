@@ -56,7 +56,7 @@ class RainfallSpider(scrapy.Spider):
     def parse_time(self, timeperiod):
         endtime = re.sub('^.* and ','',timeperiod)
         endtime = re.sub(',.*','',endtime)
-        endtime = re.sub('\.','',endtime).upper()
+        endtime = re.sub('\\.','',endtime).upper()
         endtime = re.sub('^0','12',endtime)
         endtime = datetime.combine(datetime.today().date(), datetime.strptime(endtime,"%I:%M %p").time())
         endtime = endtime.replace(tzinfo = pytz.timezone('Etc/GMT-8'))
