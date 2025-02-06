@@ -34,13 +34,9 @@ jobs:
         run: |
           coverage run -a -m scrapy crawl hkoweather -o hkoweather.csv
         working-directory: hk0weather
-      - name: Test a scraper of daily weather forecast
+      - name: Test the web scraping for weather forecast
         run: |
           coverage run -a -m scrapy crawl hkoforecast -o hkoforecast.csv
-        working-directory: hk0weather
-      - name: Test a scraper of 9-day weather forecast
-        run: |
-          coverage run -a -m scrapy crawl hko9dayforecast -o hko9dayforecast.csv
         working-directory: hk0weather
       - name: Generate coverage json report
         run: |
