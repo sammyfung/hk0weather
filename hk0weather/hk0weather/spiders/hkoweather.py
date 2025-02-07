@@ -110,18 +110,23 @@ class HkoweatherSpider(scrapy.Spider):
                 data[1] = re.sub('南','south', data[1])
                 data[1] = re.sub('西','west', data[1])
                 data[1] = re.sub('北','north', data[1])
-                if not(re.search('^[a-z].*',data[1])):
+                data[1] = re.sub('無風', 'calm', data[1])
+                if not re.search('^[a-z].*',data[1]):
                     # Variable wind direction
                     data[1] = 'variable'
                 stations[laststation]['wind_direction'] = data[1]
                 # Wind Speed
                 try:
-                    stations[laststation]['wind_speed'] = int(data[2])
+                    if stations[laststation]['wind_direction'] == 'calm' and len(data) == 3:
+                        stations[laststation]['wind_max_gust'] = int(data[2])
+                    elif len(data) > 2:
+                        stations[laststation]['wind_speed'] = int(data[2])
                 except ValueError:
                     pass
                 # Max Gust
                 try:
-                    stations[laststation]['wind_max_gust'] = int(data[3])
+                    if len(data) == 4:
+                        stations[laststation]['wind_max_gust'] = int(data[3])
                 except ValueError:
                     pass
             elif section == 'pressure' and laststation != '':
