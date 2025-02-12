@@ -5,7 +5,10 @@ import scrapy
 from scrapy.selector import Selector
 import logging
 from hk0weather.items import WeatherItem
-import re, pytz, os, json
+import re
+import pytz
+import os
+import json
 from datetime import datetime
 
 
@@ -65,7 +68,7 @@ class HkoweatherSpider(scrapy.Spider):
         section = 'temperature'
         report_time = self.get_report_time(report[0].extract())
 
-        for i in re.split('\n',report[0].extract()):
+        for i in re.split('\n', report[0].extract()):
             # Identify section
             if re.search('風速及最高陣風風速', i):
                 section = 'wind'
@@ -75,7 +78,7 @@ class HkoweatherSpider(scrapy.Spider):
                 section = 'visibility'
             elif re.search('太陽總輻射量', i):
                 section = 'solarradiation'
-            station_code = self.get_station_code_by_name(re.sub(' ','',i[:6]), lang='chinese_name')
+            station_code = self.get_station_code_by_name(re.sub(' ', '', i[:6]), lang='chinese_name')
             if station_code:
                 try:
                     station = stations[station_code]
@@ -99,12 +102,9 @@ class HkoweatherSpider(scrapy.Spider):
             if section == 'temperature' and station_code != '':
                 # Temperature section
                 stations[station_code]['temperature_unit'] = self.temperature_unit
-                for j in range(0,len(data)):
+                for j in range(0, len(data)):
                     if data[j].isdigit():
-                        #try:
-                            stations[station_code]['humidity'] = int(data[j])
-                        #except:
-                        #    print(i)
+                        stations[station_code]['humidity'] = int(data[j])
                     elif station_code != '':
                         try:
                             if j == 1:
@@ -116,7 +116,7 @@ class HkoweatherSpider(scrapy.Spider):
                         except ValueError:
                             pass
                         except KeyError:
-                            logging.warning("KeyError on Regional Weather Information: station %s, field %s"%(station_code,j))
+                            logging.warning(f"KeyError on Regional Weather Information: station {station_code}, field {j}")
             elif section == 'wind' and station_code != '':
                 stations[station_code]['wind_direction'] = ''
                 stations[station_code]['wind_speed_unit'] = self.wind_speed_unit
@@ -166,7 +166,7 @@ class HkoweatherSpider(scrapy.Spider):
         region_name = sel.xpath('//tr/td[contains(@style,"width:200px;")]/text()').extract()
         rainfall_raw_data = sel.xpath('//tr/td[contains(@style,"width:90px;")]/text()').extract()
 
-        for i in range(0,len(region_name)):
+        for i in range(0, len(region_name)):
             region_item = WeatherItem()
             region_item['crawler_name'] = self.name
             region_item['data_provider_name'] = self.data_provider_name
@@ -184,7 +184,7 @@ class HkoweatherSpider(scrapy.Spider):
                     region_item['rainfall'] = int(rainfall_data[1])
                     others['rainfall_hourly_min'] = int(rainfall_data[0])
                     others['rainfall_hourly_max'] = int(rainfall_data[1])
-                except:
+                except IndexError:
                     others = dict()
                     others['rainfall_hourly_raw_data'] = rainfall_raw_data[i]
             else:
@@ -199,19 +199,19 @@ class HkoweatherSpider(scrapy.Spider):
         report = report.split('\n')
         for i in report:
             if re.search('錄得的天氣資料', i):
-                t = re.sub('錄得的天氣資料.*','', i)
-                t = re.sub(' ','0', t)
-                t = re.sub('[年月日時分]',' ', t)
-                t = datetime.strptime(t, '%Y %m %d %H %M ').replace(tzinfo = pytz.timezone('Etc/GMT-8'))
+                t = re.sub('錄得的天氣資料.*', '', i)
+                t = re.sub(' ', '0', t)
+                t = re.sub('[年月日時分]', ' ', t)
+                t = datetime.strptime(t, '%Y %m %d %H %M ').replace(tzinfo=pytz.timezone('Etc/GMT-8'))
                 return t
 
     def get_report_time_rainfall(self, timeperiod):
-        endtime = re.sub('^.* and ','',timeperiod)
-        endtime = re.sub(',.*','',endtime)
-        endtime = re.sub('\\.','',endtime).upper()
-        endtime = re.sub('^0','12',endtime)
-        endtime = datetime.combine(datetime.today().date(), datetime.strptime(endtime,"%I:%M %p").time())
-        endtime = endtime.replace(tzinfo = pytz.timezone('Etc/GMT-8')).isoformat(timespec='milliseconds')
+        endtime = re.sub('^.* and ', '',timeperiod)
+        endtime = re.sub(',.*', '',endtime)
+        endtime = re.sub('\\.', '',endtime).upper()
+        endtime = re.sub('^0', '12',endtime)
+        endtime = datetime.combine(datetime.today().date(), datetime.strptime(endtime, "%I:%M %p").time())
+        endtime = endtime.replace(tzinfo=pytz.timezone('Etc/GMT-8')).isoformat(timespec='milliseconds')
         return endtime
 
     def get_station_code_by_name(self, station_name, lang='english_name'):

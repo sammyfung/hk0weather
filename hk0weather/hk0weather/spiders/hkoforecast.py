@@ -105,7 +105,6 @@ class HkoforecastSpider(Spider):
             naive_datetime = datetime.strptime(source['forecastDate'], '%Y%m%d')
             localized_datetime = self.hkt.localize(naive_datetime)
             forecast_date = localized_datetime.isoformat(timespec='milliseconds')
-            #forecast_date = datetime.strptime(source['forecastDate'], '%Y%m%d').replace(tzinfo=pytz.timezone('Asia/Hong_Kong')).isoformat(timespec='milliseconds')
             first_forecast_date = forecast_date if not first_forecast_date else first_forecast_date
             for target in items:
                 target_item_num += 1

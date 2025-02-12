@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
+
 class WeatherItem(scrapy.Item):
     crawler_name = scrapy.Field()
     data_provider_name = scrapy.Field()
@@ -26,6 +27,7 @@ class WeatherItem(scrapy.Item):
     rainfall_unit = scrapy.Field()
     others = scrapy.Field()
 
+
 class ForecastItem(scrapy.Item):
     crawler_name = scrapy.Field()
     data_provider_name = scrapy.Field()
@@ -47,4 +49,4 @@ class ForecastItem(scrapy.Item):
     wind_speed_unit = scrapy.Field()
     wind_description = scrapy.Field()
     others = scrapy.Field()
-
+    
