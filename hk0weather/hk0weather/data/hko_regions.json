@@ -1,0 +1,20 @@
+{
+  "_region_southern":{"chinese_name":"南區","english_name":"Southern District"},
+  "_region_islands":{"chinese_name":"離島區","english_name":"Islands District"},
+  "_region_wanchai":{"chinese_name":"灣仔","english_name":"Wan Chai"},
+  "_region_central_western":{"chinese_name":"中西區","english_name":"Central & Western District"},
+  "_region_kwuntong":{"chinese_name":"觀塘","english_name":"Kwun Tong"},
+  "_region_eastern":{"chinese_name":"東區","english_name":"Eastern District"},
+  "_region_saikung":{"chinese_name":"西貢","english_name":"Sai Kung"},
+  "_region_yautsimmong":{"chinese_name":"油尖旺","english_name":"Yau Tsim Mong"},
+  "_region_kowlooncity":{"chinese_name":"九龍城","english_name":"Kowloon City"},
+  "_region_wongtaisin":{"chinese_name":"黃大仙","english_name":"Wong Tai Sin"},
+  "_region_shatin":{"chinese_name":"沙田","english_name":"Sha Tin"},
+  "_region_taipo":{"chinese_name":"大埔","english_name":"Tai Po"},
+  "_region_shamshuipo":{"chinese_name":"深水埗","english_name":"Sham Shui Po"},
+  "_region_kwaitsing":{"chinese_name":"葵青","english_name":"Kwai Tsing"},
+  "_region_tsuenwan":{"chinese_name":"荃灣","english_name":"Tsuen Wan"},
+  "_region_tuenmun":{"chinese_name":"屯門","english_name":"Tuen Mun"},
+  "_region_north":{"chinese_name":"北區","english_name":"North District"},
+  "_region_yuenlong":{"chinese_name":"元朗","english_name":"Yuen Long"}
+}
