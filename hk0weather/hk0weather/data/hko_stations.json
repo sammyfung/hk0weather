@@ -49,5 +49,6 @@
   "np1":{"chinese_name":"北角","english_name":"North Point"},
   "hss":{"chinese_name":"香港航海學校","english_name":"Hong Kong Sea School"},
   "ylp":{"chinese_name":"元朗公園","english_name":"Yuen Long Park"},
-  "lam":{"chinese_name":"南丫島","english_name":"Lamma Island"}
+  "lam":{"chinese_name":"南丫島","english_name":"Lamma Island"},
+  "_central": {"chinese_name":"中環","english_name":"Central"}
 }

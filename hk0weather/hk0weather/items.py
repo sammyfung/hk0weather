@@ -22,14 +22,9 @@ class WeatherItem(scrapy.Item):
     sea_level_pressure_unit = scrapy.Field()
     visibility_distance = scrapy.Field()
     visibility_unit = scrapy.Field()
-
-class RainfallItem(scrapy.Item):
-    scraptime = scrapy.Field()
-    reptime = scrapy.Field()
-    ename = scrapy.Field()
-    cname = scrapy.Field()
-    rainfallmin = scrapy.Field()
-    rainfallmax = scrapy.Field()
+    rainfall = scrapy.Field()
+    rainfall_unit = scrapy.Field()
+    others = scrapy.Field()
 
 class ForecastItem(scrapy.Item):
     crawler_name = scrapy.Field()
