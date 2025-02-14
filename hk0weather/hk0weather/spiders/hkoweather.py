@@ -157,7 +157,8 @@ class HkoweatherSpider(scrapy.Spider):
                 try:
                     stations[station_code]['visibility_distance'] = int(data[1])
                 except ValueError:
-                    pass
+                    if re.search('N/A', data[1]):
+                        stations[station_code]['others']['missing_reason_visibility_distance'] = 'N/A'
 
         for key in stations:
             station_item = WeatherItem()
