@@ -49,4 +49,3 @@ class ForecastItem(scrapy.Item):
     wind_speed_unit = scrapy.Field()
     wind_description = scrapy.Field()
     others = scrapy.Field()
-    

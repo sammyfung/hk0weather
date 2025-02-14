@@ -91,9 +91,11 @@ class HkoweatherSpider(scrapy.Spider):
                     stations[station_code]['station_code'] = station_code
                     stations[station_code]['station_name'] = self.hko_stations[station_code]['english_name']
                     stations[station_code]['station_name_hk'] = self.hko_stations[station_code]['chinese_name']
+                    stations[station_code]['others'] = dict()
             else:
                 continue
 
+            dataline = re.sub('^ *[^ ]', '', i[6:])
             dataline = re.sub('\t', '    ', i[6:])
             dataline = re.sub(' +', ',', dataline)
             data = re.split(',', dataline)
@@ -113,6 +115,12 @@ class HkoweatherSpider(scrapy.Spider):
                                 stations[station_code]['temperature_max'] = float(data[j])
                             elif j == 5:
                                 stations[station_code]['temperature_min'] = float(data[j])
+                            elif j == 6:
+                                stations[station_code]['others']['temperature_past_24hr_difference'] = float(data[j])
+                            elif j == 7:
+                                stations[station_code]['others']['temperature_grass'] = float(data[j])
+                            elif j == 8:
+                                stations[station_code]['others']['temperature_grass_min'] = float(data[j])
                         except ValueError:
                             pass
                         except KeyError:
@@ -154,7 +162,10 @@ class HkoweatherSpider(scrapy.Spider):
         for key in stations:
             station_item = WeatherItem()
             for key2 in stations[key]:
-                station_item[key2] = stations[key][key2]
+                if key2 != 'others':
+                    station_item[key2] = stations[key][key2]
+                elif stations[key][key2] != {}:
+                    station_item[key2] = json.dumps(stations[key][key2])
             station_items.append(station_item)
 
         return station_items
